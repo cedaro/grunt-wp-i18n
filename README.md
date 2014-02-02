@@ -52,22 +52,23 @@ grunt.initConfig({
 
 #### options.cwd
 Type: `String`  
-Default value: `''`
+Default value: `''`  
+Example value: `'release'`
 
 The directory that should be internationalized. Defaults to the project root, but can be set to a subdirectory, for instance, when being used in a build process. Should be relative to the project root.
 
 #### options.domainPath
 Type: `String`  
-Default value: `''`
+Default value: `''`  
 Example value: `'/languages'`
 
-The directory where the POT file should be saved. Defaults to using the value from the 'Domain Path' header if it exists.
+The directory where the POT file should be saved. Defaults to the value from the "Domain Path" header if it exists.
 
 #### options.i18nToolsPath
 Type: `String`  
 Default value: `'../../../../tools/i18n/'`
 
-Path to a local copy of the WordPress i18n tools. May be relative to the project or an absolute path. Defaults to the path where the i18n tools would exist when developing in the standard WordPress development structure from http://develop.svn.wordpress.org/trunk/
+Path to a local copy of the WordPress i18n tools. May be relative to the project or an absolute path. Defaults to the path where the i18n tools exist when developing with the standard WordPress development structure at http://develop.svn.wordpress.org/trunk/
 
 #### options.mainFile
 Type: `String`  
@@ -81,11 +82,11 @@ Type: `String`
 Default value: `''`  
 Example value: `'plugin-or-theme-slug.pot'`
 
-Name of the POT file. Defaults to using the 'Text Domain' header if it exists, otherwise uses the project directory name.
+Name of the POT file. Defaults to the "Text Domain" header if it exists, otherwise uses the project directory name.
 
 #### options.type
 Type: `String`
-Default value: `'wp-plugin'`
+Default value: `'wp-plugin'`  
 Example value: `'wp-plugin'` or `'wp-theme'`
 
 The type of project.
@@ -128,7 +129,7 @@ grunt.initConfig({
 
 #### Local Config
 
-Gruntfile.js is shared between anyone working on a project, however, developers developers may wish to save their i18n tools in a custom location. To do so, save the `i18nToolsPath` in a `config.json` file in the project directory. This file may contain other local configuration options or sensitive data, so it should not be checked in to version control.
+Options defined in Gruntfile.js are shared between anyone working on a project, however, developers may wish to save their i18n tools in a custom location. To do so, add the `i18nToolsPath` in a `config.json` file in the project directory. This file may contain other local configuration options or sensitive data, so it should not be checked in to version control.
 
 ```json
 {
