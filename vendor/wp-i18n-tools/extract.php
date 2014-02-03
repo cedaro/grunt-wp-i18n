@@ -1,5 +1,5 @@
 <?php
-$pomo = dirname( dirname( dirname( __FILE__ ) ) ) . '/src/wp-includes/pomo';
+$pomo = dirname( __FILE__ ) . '/pomo';
 require_once "$pomo/entry.php";
 require_once "$pomo/translations.php";
 
