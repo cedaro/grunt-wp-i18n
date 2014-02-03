@@ -40,6 +40,8 @@
   },
   "keywords": [
     "gruntplugin",
-    "wordpress"
+    "wordpress",
+    "i18n",
+    "translation"
   ]
 }
