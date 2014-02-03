@@ -447,8 +447,9 @@ class MakePOT {
 		$potextmeta = new PotExtMeta;
 		$res = $potextmeta->append($main_file, $output);
 		/* Adding non-gettexted strings can repeat some phrases */
-		$output_shell = escapeshellarg($output);
-		system("msguniq $output_shell -o $output_shell");
+		// Now handled in grunt-wp-i18n to remove the msguniq dependency.
+		//$output_shell = escapeshellarg($output);
+		//system("msguniq $output_shell -o $output_shell");
 		return $res;
 	}
 
@@ -502,8 +503,9 @@ class MakePOT {
 			}
 		}
 		/* Adding non-gettexted strings can repeat some phrases */
-		$output_shell = escapeshellarg($output);
-		system("msguniq $output_shell -o $output_shell");
+		// Now handled in grunt-wp-i18n to remove the msguniq dependency.
+		//$output_shell = escapeshellarg($output);
+		//system("msguniq $output_shell -o $output_shell");
 		return $res;
 	}
 

@@ -10,15 +10,16 @@
 
 module.exports = function( grunt ) {
 
-	var _ = require('underscore'),
+	var _ = require( 'underscore' ),
+		gettext = require( 'gettext-parser' ),
 		path = require( 'path' ),
 		util = require( './lib/util' ).init( grunt ),
 		localConfig = util.getLocalConfig(),
 		wp = require( './lib/wordpress' ).init( grunt );
 
 	// Mix in non-conflict string functions to Underscore namespace.
-	_.str = require('underscore.string');
-	_.mixin(_.str.exports());
+	_.str = require( 'underscore.string' );
+	_.mixin( _.str.exports() );
 
 	/**
 	 * Generate a POT file for translating strings.
@@ -90,7 +91,13 @@ module.exports = function( grunt ) {
 			],
 			opts: { stdio: 'inherit' }
 		}, function( error, result, code ) {
+			var pot;
+
 			if ( 0 === code && grunt.file.exists( o.potFile ) ) {
+				// Remove duplicates from the POT file.
+				pot = gettext.po.parse( grunt.file.read( o.potFile ) );
+				grunt.file.write( o.potFile, gettext.po.compile( pot ) );
+
 				grunt.log.ok( 'POT file saved to ' + o.potFile );
 			}
 
