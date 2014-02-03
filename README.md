@@ -23,7 +23,7 @@ grunt.loadNpmTasks( 'grunt-wp-i18n' );
 ### Requirements
 
 * This plugin requires Grunt `~0.4.0`.
-* [PHP CLI](http://www.php.net/manual/en/features.commandline.introduction.php) and [gettext](http://www.gnu.org/software/gettext/) must be in your system path.
+* [PHP CLI](http://www.php.net/manual/en/features.commandline.introduction.php) must be in your system path.
 
 ## Makepot task
 
