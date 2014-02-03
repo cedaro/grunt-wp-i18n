@@ -31,8 +31,7 @@ module.exports = function( grunt ) {
 		var o = this.options({
 			cwd: process.cwd(),
 			domainPath: '',
-			// Default location when using develop.svn.wordpress.org
-			i18nToolsPath: '../../../../tools/i18n/',
+			i18nToolsPath: path.resolve( __dirname, '../lib/wp-i18n-tools/' ),
 			mainFile: '',
 			potFilename: '',
 			type: 'wp-plugin'
