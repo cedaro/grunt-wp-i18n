@@ -31,7 +31,7 @@ module.exports = function( grunt ) {
 		var o = this.options({
 			cwd: process.cwd(),
 			domainPath: '',
-			i18nToolsPath: path.resolve( __dirname, '../lib/wp-i18n-tools/' ),
+			i18nToolsPath: path.resolve( __dirname, '../vendor/wp-i18n-tools/' ),
 			mainFile: '',
 			potFilename: '',
 			type: 'wp-plugin'
