@@ -24,7 +24,6 @@ grunt.loadNpmTasks( 'grunt-wp-i18n' );
 
 * This plugin requires Grunt `~0.4.0`.
 * [PHP CLI](http://www.php.net/manual/en/features.commandline.introduction.php) and [gettext](http://www.gnu.org/software/gettext/) must be in your system path.
-* You must have a local copy of the [WordPress i18n tools](http://develop.svn.wordpress.org/trunk/tools/i18n/).
 
 ## Makepot task
 
@@ -65,10 +64,9 @@ Example value: `'/languages'`
 The directory where the POT file should be saved. Defaults to the value from the "Domain Path" header if it exists.
 
 #### options.i18nToolsPath
-Type: `String`  
-Default value: `'../../../../tools/i18n/'`
+Type: `String`
 
-Path to a local copy of the WordPress i18n tools. May be relative to the project or an absolute path. Defaults to the path where the i18n tools exist when developing with the standard WordPress development structure at http://develop.svn.wordpress.org/trunk/
+Path to a local copy of the WordPress i18n tools. May be relative to the project or an absolute path. Defaults to a bundled version of the i18n tools.
 
 #### options.mainFile
 Type: `String`  
