@@ -36,12 +36,14 @@ In your project's Gruntfile, add a section named `makepot` to the data object pa
 grunt.initConfig({
     makepot: {
         target: {
-            cwd: '',           // Directory of files to internationalize.
-            domainPath: '',    // Where to save the POT file.
-            i18nToolsPath: '', // Path to the i18n tools directory.
-            mainFile: '',      // Main project file.
-            potFilename: '',   // Name of the POT file.
-            type: 'wp-plugin'  // Type of project (wp-plugin or wp-theme).
+            options: {
+                cwd: '',           // Directory of files to internationalize.
+                domainPath: '',    // Where to save the POT file.
+                i18nToolsPath: '', // Path to the i18n tools directory.
+                mainFile: '',      // Main project file.
+                potFilename: '',   // Name of the POT file.
+                type: 'wp-plugin'  // Type of project (wp-plugin or wp-theme).
+            }
         }
     }
 });
