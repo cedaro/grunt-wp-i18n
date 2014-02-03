@@ -24,9 +24,6 @@
   "engines": {
     "node": ">= 0.8.0"
   },
-  "scripts": {
-    "test": "grunt test"
-  },
   "dependencies": {
     "async": "~0.2.9",
     "grunt": "~0.4.2",
@@ -42,6 +39,7 @@
     "grunt": "~0.4.0"
   },
   "keywords": [
-    "gruntplugin"
+    "gruntplugin",
+    "wordpress"
   ]
 }
