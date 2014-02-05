@@ -6,6 +6,7 @@ WordPress has a robust suite of tools to help internationalize plugins and theme
 
 If you're not familiar with i18n concepts, read the Internationalization entries in the [Plugin Developer Handbook](http://make.wordpress.org/docs/plugin-developer-handbook/plugin-components/internationalization/) or [Theme Developer Handbook](http://make.wordpress.org/docs/theme-developer-handbook/theme-functionality/internationalization/).
 
+
 ## Getting Started
 
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
@@ -25,11 +26,24 @@ grunt.loadNpmTasks( 'grunt-wp-i18n' );
 * This plugin requires Grunt `~0.4.0`.
 * [PHP CLI](http://www.php.net/manual/en/features.commandline.introduction.php) must be in your system path.
 
+
+## Tasks
+
+This plugin consists of two configurable tasks:
+
+* [makepot](#makepot-task) - Generate a POT file.
+* [addtextdomain](#addtextdomain-task) - Add a text domain to gettext functions.
+
+
 ## Makepot task
+
+Generate a POT file for translators to use when translating your plugin or theme.
 
 _Run this task with the `grunt makepot` command._
 
+
 ### Overview
+
 In your project's Gruntfile, add a section named `makepot` to the data object passed into `grunt.initConfig()`.
 
 ```js
@@ -91,9 +105,11 @@ Example value: `'wp-plugin'` or `'wp-theme'`
 
 The type of project.
 
+
 ### Usage Examples
 
 #### Default Options
+
 All options are optional, but at the very least a target needs to exist, so at a minimum, set an option specifying the type of project.
 
 ```js
@@ -109,6 +125,7 @@ grunt.initConfig({
 ```
 
 #### Custom Options
+
 If using with a custom build process, the following config would process strings in the `/release` subdirectory and save the POT file at `/release/languages/plugin-slug.pot`.
 
 ```js
@@ -127,7 +144,67 @@ grunt.initConfig({
 });
 ```
 
-#### Local Config
+## Addtextdomain task
+
+Add the text domain to gettext functions in your plugin or theme.
+
+**Warning:** This task will overwrite files in your project. Be sure to have a backup or commit any changes before running it. Viewing a diff after the task has run is a good way to verify any changes.
+
+_Run this task with the `grunt addtextdomain` command._
+
+### Overview
+
+In your project's Gruntfile, add a section named `addtextdomain` to the data object passed into `grunt.initConfig()`.
+
+```js
+grunt.initConfig({
+    addtextdomain: {
+        options: {
+            i18nToolsPath: '', // Path to the i18n tools directory.
+            textdomain: '',    // Project text domain.
+        },
+        target: {
+            files: {}
+        }
+    }
+});
+```
+
+### Options
+
+#### options.i18nToolsPath
+Type: `String`
+
+Path to a local copy of the WordPress i18n tools. May be relative to the project or an absolute path. Defaults to a bundled version of the i18n tools.
+
+#### options.textdomain
+Type: `String`  
+Default value: `''`  
+Example value: `'plugin-or-theme-slug'`
+
+Defaults to the "Text Domain" header if it exists, otherwise uses the project directory name.
+
+
+### Usage Examples
+
+Options may be specified at the task or target level, but are optional. Each target must define the files that should be operated on. It's not necessary to declare a destination since the files will be updated in place.
+
+```js
+grunt.initConfig({
+    addtextdomain: {
+        target: {
+            files: {
+                src: [ '*.php', '**/*.php', '!node_modules/**', '!tests/**' ]
+            }
+        }
+    }
+});
+```
+
+This task supports the file mapping format Grunt supports. Please read [Globbing patterns](http://gruntjs.com/configuring-tasks#globbing-patterns) and [Building the files object dynamically](http://gruntjs.com/configuring-tasks#building-the-files-object-dynamically) for additional details.
+
+
+## Local Config
 
 Options defined in Gruntfile.js are shared between anyone working on a project, however, developers may wish to save their i18n tools in a custom location. To do so, add the `i18nToolsPath` in a `config.json` file in the project directory. This file may contain other local configuration options or sensitive data, so it should not be checked in to version control.
 
@@ -139,11 +216,15 @@ Options defined in Gruntfile.js are shared between anyone working on a project, 
 
 ## Roadmap
 
-* Add a task for the `add-textdomain.php` console app.
-* Consider copying project files to a temp directory so development files can be excluded (node_modueles, .git, tests, etc).
+* Consider copying project files to a temp directory so development files can be excluded (node_modules, .git, tests, etc).
 * Add some tests.
 
+
 ## Release History
+
+#### 0.3.0
+
+* Added the `addtextdomain` task.
 
 #### 0.2.0
 
