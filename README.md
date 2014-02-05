@@ -149,7 +149,7 @@ Options defined in Gruntfile.js are shared between anyone working on a project, 
 
 * Forked and bundled the WordPress i18n tools so they no longer need to be downloaded separately.
 * Removed the gettext dependency by relying on the [gettext-parser](https://github.com/andris9/gettext-parser) package to remove duplicate strings in POT files.
-* Fixed the util.slugify() method to properly guess the project slug when in an SVN repo.
+* Fixed the wp.slugify() method to properly guess the project slug when in an SVN repo.
 
 #### 0.1.0
 

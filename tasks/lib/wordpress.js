@@ -89,7 +89,7 @@ exports.init = function( grunt ) {
 	/**
 	 * Guess the project slug.
 	 *
-	 * See: MakePOT:guess_plugin_slug() in makepot.php
+	 * See MakePOT::guess_plugin_slug() in makepot.php
 	 *
 	 * @return {string}
 	 */

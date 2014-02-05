@@ -17,14 +17,14 @@ module.exports = function( grunt ) {
 		localConfig = util.getLocalConfig(),
 		wp = require( './lib/wordpress' ).init( grunt );
 
-	// Mix in non-conflict string functions to Underscore namespace.
+	// Mix no-conflict string functions into the Underscore namespace.
 	_.str = require( 'underscore.string' );
 	_.mixin( _.str.exports() );
 
 	/**
 	 * Generate a POT file for translating strings.
 	 *
-	 * php-cli and gettext should be in the system path to run this task.
+	 * php-cli should be in the system path to run this task.
 	 *
 	 * @link http://develop.svn.wordpress.org/trunk/tools/i18n/
 	 */
