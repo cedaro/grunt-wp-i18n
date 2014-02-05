@@ -62,8 +62,7 @@ module.exports = function( grunt ) {
 						o.addTextdomainScript,
 						'-i',
 						o.textdomain,
-						path.resolve( process.cwd(), file ),
-						path.resolve( process.cwd(), f.dest.replace( '/', '' ) )
+						path.resolve( process.cwd(), file )
 					],
 					opts: { stdio: 'inherit' }
 				}, function( error, result, code ) {
