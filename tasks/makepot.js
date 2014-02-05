@@ -51,7 +51,7 @@ module.exports = function( grunt ) {
 		// Use the Text Domain header or project folder name
 		// for the pot file if it hasn't been set.
 		if ( '' === o.potFilename ) {
-			o.potFilename = wp.getHeader( 'Text Domain' ) + '.pot' || wp.slugify() + '.pot';
+			o.potFilename = wp.getHeader( 'Text Domain', o.mainFile ) + '.pot' || wp.slugify() + '.pot';
 		}
 
 		o.cwd = path.resolve( process.cwd(), o.cwd );
