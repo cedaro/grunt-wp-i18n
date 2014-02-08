@@ -37,7 +37,7 @@ exports.init = function( grunt ) {
 		}
 
 		if ( 'Text Domain' === name ) {
-			return path.basename( process.cwd() );
+			return exports.slugify();
 		}
 
 		return '';
