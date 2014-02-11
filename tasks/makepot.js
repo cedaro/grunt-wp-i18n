@@ -29,7 +29,10 @@ module.exports = function( grunt ) {
 	 * @link http://develop.svn.wordpress.org/trunk/tools/i18n/
 	 */
 	grunt.registerMultiTask( 'makepot', function() {
-		var o = this.options({
+		var done = this.async(),
+			o;
+
+		o = this.options({
 			cwd: process.cwd(),
 			domainPath: '',
 			i18nToolsPath: path.resolve( __dirname, '../vendor/wp-i18n-tools/' ),
@@ -67,19 +70,6 @@ module.exports = function( grunt ) {
 
 		// Create the domain path directory if it doesn't exist.
 		grunt.file.mkdir( path.resolve( o.cwd, o.domainPath ) );
-
-		grunt.option( 'makepot', o );
-
-		// Spawn a new task to make it synchronous in case other tasks
-		// need to be run beforehand in the future.
-		grunt.task.run( 'makepot-generate' );
-	});
-
-	grunt.registerTask( 'makepot-generate', function() {
-		var done = this.async(),
-			o = grunt.option( 'makepot' );
-
-		grunt.task.requires( 'makepot' );
 
 		grunt.util.spawn({
 			cmd: 'php',
