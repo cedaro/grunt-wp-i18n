@@ -222,6 +222,11 @@ Options defined in Gruntfile.js are shared between anyone working on a project, 
 
 ## Release History
 
+#### 0.3.1
+
+* Fixed a bug where the text domain wasn't properly guessed in subdirectories if the Text Domain header didn't exist.
+* Moved all the makepot functionality into a single task.
+
 #### 0.3.0
 
 * Added the `addtextdomain` task.
