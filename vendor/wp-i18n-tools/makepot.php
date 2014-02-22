@@ -427,9 +427,10 @@ class MakePOT {
 		return $slug;
 	}
 
-	function wp_plugin($dir, $output, $slug = null) {
+	function wp_plugin($dir, $output, $slug = null, $excludes = '') {
 		$placeholders = array();
 		// guess plugin slug
+		echo $slug . "\n\n";
 		if (is_null($slug)) {
 			$slug = $this->guess_plugin_slug($dir);
 		}
@@ -442,7 +443,7 @@ class MakePOT {
 		$placeholders['slug'] = $slug;
 
 		$output = is_null($output)? "$slug.pot" : $output;
-		$res = $this->xgettext('wp-plugin', $dir, $output, $placeholders);
+		$res = $this->xgettext('wp-plugin', $dir, $output, $placeholders, self::sanitize_excludes($excludes));
 		if (!$res) return false;
 		$potextmeta = new PotExtMeta;
 		$res = $potextmeta->append($main_file, $output);
@@ -453,7 +454,7 @@ class MakePOT {
 		return $res;
 	}
 
-	function wp_theme($dir, $output, $slug = null) {
+	function wp_theme($dir, $output, $slug = null, $excludes = '') {
 		$placeholders = array();
 		// guess plugin slug
 		if (is_null($slug)) {
@@ -474,7 +475,7 @@ class MakePOT {
 			$this->meta['wp-theme']['comments'] = "Copyright (C) {year} {author}\nThis file is distributed under the same license as the {package-name} package.";
 
 		$output = is_null($output)? "$slug.pot" : $output;
-		$res = $this->xgettext('wp-theme', $dir, $output, $placeholders);
+		$res = $this->xgettext('wp-theme', $dir, $output, $placeholders, self::sanitize_excludes($excludes));
 		if (! $res )
 			return false;
 		$potextmeta = new PotExtMeta;
@@ -551,6 +552,14 @@ class MakePOT {
 	function is_not_ms_file( $file_name ) {
 		return !$this->is_ms_file( $file_name );
 	}
+
+	function sanitize_excludes( $excludes ) {
+		if ( is_string( $excludes ) ) {
+			$excludes = explode( ',', $excludes );
+		}
+		// Remote empty items and non-strings.
+		return array_filter( array_filter( (array) $excludes ), 'is_string' );
+	}
 }
 
 // run the CLI only if the file
@@ -558,8 +567,14 @@ class MakePOT {
 $included_files = get_included_files();
 if ($included_files[0] == __FILE__) {
 	$makepot = new MakePOT;
-	if ((3 == count($argv) || 4 == count($argv)) && in_array($method = str_replace('-', '_', $argv[1]), get_class_methods($makepot))) {
-		$res = call_user_func(array($makepot, $method), realpath($argv[2]), isset($argv[3])? $argv[3] : null);
+	if (in_array(count($argv), range(3,5)) && in_array($method = str_replace('-', '_', $argv[1]), get_class_methods($makepot))) {
+		$res = call_user_func(
+			array($makepot, $method),
+			realpath($argv[2]),
+			isset($argv[3])? $argv[3] : null,
+			null,
+			isset($argv[4])? $argv[4] : null
+		);
 		if (false === $res) {
 			fwrite(STDERR, "Couldn't generate POT file!\n");
 		}

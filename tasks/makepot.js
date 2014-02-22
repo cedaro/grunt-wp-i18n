@@ -35,6 +35,7 @@ module.exports = function( grunt ) {
 		o = this.options({
 			cwd: process.cwd(),
 			domainPath: '',
+			exclude: [],
 			i18nToolsPath: path.resolve( __dirname, '../vendor/wp-i18n-tools/' ),
 			mainFile: '',
 			potFilename: '',
@@ -71,13 +72,17 @@ module.exports = function( grunt ) {
 		// Create the domain path directory if it doesn't exist.
 		grunt.file.mkdir( path.resolve( o.cwd, o.domainPath ) );
 
+		// Exclude the node_modules directory by default.
+		o.exclude.push( 'node_modules/.*' );
+
 		grunt.util.spawn({
 			cmd: 'php',
 			args: [
 				o.makepotScript,
 				o.type,
 				o.cwd,
-				o.potFile
+				o.potFile,
+				o.exclude.join( ',' )
 			],
 			opts: { stdio: 'inherit' }
 		}, function( error, result, code ) {
