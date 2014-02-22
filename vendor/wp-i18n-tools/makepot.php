@@ -430,7 +430,6 @@ class MakePOT {
 	function wp_plugin($dir, $output, $slug = null, $excludes = '') {
 		$placeholders = array();
 		// guess plugin slug
-		echo $slug . "\n\n";
 		if (is_null($slug)) {
 			$slug = $this->guess_plugin_slug($dir);
 		}
