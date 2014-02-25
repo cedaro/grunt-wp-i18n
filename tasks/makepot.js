@@ -30,6 +30,7 @@ module.exports = function( grunt ) {
 	 */
 	grunt.registerMultiTask( 'makepot', function() {
 		var done = this.async(),
+			gruntBase = process.cwd(),
 			o;
 
 		o = this.options({
@@ -41,6 +42,10 @@ module.exports = function( grunt ) {
 			potFilename: '',
 			type: 'wp-plugin'
 		});
+
+		// Set the current working directory.
+		o.cwd = path.resolve( process.cwd(), o.cwd );
+		grunt.file.setBase( o.cwd );
 
 		// Attempt to discover the main project file.
 		if ( '' === o.mainFile ) {
@@ -58,7 +63,6 @@ module.exports = function( grunt ) {
 			o.potFilename = wp.getHeader( 'Text Domain', o.mainFile ) + '.pot' || wp.slugify() + '.pot';
 		}
 
-		o.cwd = path.resolve( process.cwd(), o.cwd );
 		o.domainPath = _.ltrim( o.domainPath, [ '/', '\\' ] );
 		o.i18nToolsPath = localConfig.i18nToolsPath || o.i18nToolsPath;
 		o.potFile = path.join( o.cwd, o.domainPath, o.potFilename );
@@ -71,6 +75,9 @@ module.exports = function( grunt ) {
 
 		// Create the domain path directory if it doesn't exist.
 		grunt.file.mkdir( path.resolve( o.cwd, o.domainPath ) );
+
+		// Reset the working directory.
+		grunt.file.setBase( gruntBase );
 
 		// Exclude the node_modules directory by default.
 		o.exclude.push( 'node_modules/.*' );
