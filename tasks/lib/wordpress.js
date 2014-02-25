@@ -55,7 +55,8 @@ exports.init = function( grunt ) {
 	 */
 	exports.getMainFile = function( type ) {
 		var slug = exports.slugify(),
-			pluginFile = slug + '.php';
+			pluginFile = slug + '.php',
+			found;
 
 		if ( 'wp-theme' === type || ( 'undefined' === typeof type && grunt.file.exists( 'style.css' ) ) ) {
 			return 'style.css';
@@ -78,12 +79,12 @@ exports.init = function( grunt ) {
 				}
 			}).forEach(function( filepath ) {
 				if ( exports.getHeader( 'Plugin Name', filepath ) ) {
-					return filepath;
+					found = filepath;
 				}
 			});
 		});
 
-		return false;
+		return found;
 	};
 
 	/**
