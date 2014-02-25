@@ -93,6 +93,7 @@ module.exports = function( grunt ) {
 
 		// Only add custom CLI args if using the bundled tools.
 		if ( defaultI18nToolsPath === o.i18nToolsPath ) {
+			cmdArgs.push( o.mainFile.split( '.' ).shift() );
 			cmdArgs.push( o.exclude.join( ',' ) );
 		}
 

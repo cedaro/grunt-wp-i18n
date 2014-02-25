@@ -566,13 +566,13 @@ class MakePOT {
 $included_files = get_included_files();
 if ($included_files[0] == __FILE__) {
 	$makepot = new MakePOT;
-	if (in_array(count($argv), range(3,5)) && in_array($method = str_replace('-', '_', $argv[1]), get_class_methods($makepot))) {
+	if (in_array(count($argv), range(3,6)) && in_array($method = str_replace('-', '_', $argv[1]), get_class_methods($makepot))) {
 		$res = call_user_func(
-			array($makepot, $method),
-			realpath($argv[2]),
-			isset($argv[3])? $argv[3] : null,
-			null,
-			isset($argv[4])? $argv[4] : null
+			array($makepot, $method),         // Method
+			realpath($argv[2]),               // Directory
+			isset($argv[3])? $argv[3] : null, // Output
+			isset($argv[4])? $argv[4] : null, // Slug
+			isset($argv[5])? $argv[5] : null  // Excludes
 		);
 		if (false === $res) {
 			fwrite(STDERR, "Couldn't generate POT file!\n");
