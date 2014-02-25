@@ -12,7 +12,6 @@ module.exports = function( grunt ) {
 
 	var async = require( 'async' ),
 		path = require( 'path' ),
-		util = require( './lib/util' ).init( grunt ),
 		localConfig = require( './lib/util' ).init( grunt ).getLocalConfig(),
 		wp = require( './lib/wordpress' ).init( grunt );
 
@@ -65,7 +64,7 @@ module.exports = function( grunt ) {
 						path.resolve( process.cwd(), file )
 					],
 					opts: { stdio: 'inherit' }
-				}, function( error, result, code ) {
+				}, function() {
 					nextFile();
 				});
 			}, function( error, result ) {
