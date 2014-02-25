@@ -30,14 +30,15 @@ module.exports = function( grunt ) {
 	 */
 	grunt.registerMultiTask( 'makepot', function() {
 		var done = this.async(),
+			defaultI18nToolsPath = path.resolve( __dirname, '../vendor/wp-i18n-tools/' ),
 			gruntBase = process.cwd(),
-			o;
+			cmdArgs, o;
 
 		o = this.options({
 			cwd: process.cwd(),
 			domainPath: '',
 			exclude: [],
-			i18nToolsPath: path.resolve( __dirname, '../vendor/wp-i18n-tools/' ),
+			i18nToolsPath: defaultI18nToolsPath,
 			mainFile: '',
 			potFilename: '',
 			type: 'wp-plugin'
@@ -82,15 +83,22 @@ module.exports = function( grunt ) {
 		// Exclude the node_modules directory by default.
 		o.exclude.push( 'node_modules/.*' );
 
+		// Build the list of CLI args.
+		cmdArgs = [
+			o.makepotScript,
+			o.type,
+			o.cwd,
+			o.potFile
+		];
+
+		// Only add custom CLI args if using the bundled tools.
+		if ( defaultI18nToolsPath === o.i18nToolsPath ) {
+			cmdArgs.push( o.exclude.join( ',' ) );
+		}
+
 		grunt.util.spawn({
 			cmd: 'php',
-			args: [
-				o.makepotScript,
-				o.type,
-				o.cwd,
-				o.potFile,
-				o.exclude.join( ',' )
-			],
+			args: cmdArgs,
 			opts: { stdio: 'inherit' }
 		}, function( error, result, code ) {
 			var pot;
