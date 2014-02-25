@@ -53,6 +53,7 @@ grunt.initConfig({
             options: {
                 cwd: '',           // Directory of files to internationalize.
                 domainPath: '',    // Where to save the POT file.
+                exclude: [],       // List of files or directories to ignore.
                 i18nToolsPath: '', // Path to the i18n tools directory.
                 mainFile: '',      // Main project file.
                 potFilename: '',   // Name of the POT file.
@@ -78,6 +79,13 @@ Default value: `''`
 Example value: `'/languages'`
 
 The directory where the POT file should be saved. Defaults to the value from the "Domain Path" header if it exists.
+
+#### options.exclude
+Type: `String`  
+Default value: `[]]`  
+Example value: `'['subdir/.*']'`
+
+List of files or directories to ignore when generating the POT file. Note that the globbing pattern is a basic PHP [regular expression](https://github.com/blazersix/grunt-wp-i18n/blob/develop/vendor/wp-i18n-tools/extract.php#L59).
 
 #### options.i18nToolsPath
 Type: `String`
@@ -214,13 +222,16 @@ Options defined in Gruntfile.js are shared between anyone working on a project, 
 }
 ```
 
-## Roadmap
-
-* Consider copying project files to a temp directory so development files can be excluded (node_modules, .git, tests, etc).
-* Add some tests.
-
 
 ## Release History
+
+#### 0.4.0
+
+* Added an `exclude` option to ignore strings in specified directories or files.
+* Set the current working directory based on the `cwd` option. All options should be relative to `cwd`.
+* Fixed the searching process in `wordpress.getMainFile()` if the standard main file can't be found.
+* Attempt to prevent an error in the CLI tools if the main plugin file name doesn't match the guessed slug.
+* Added some basic tests.
 
 #### 0.3.1
 
