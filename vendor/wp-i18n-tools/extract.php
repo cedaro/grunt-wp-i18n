@@ -1,7 +1,7 @@
 <?php
 $pomo = dirname( __FILE__ ) . '/pomo';
-require_once "$pomo/entry.php";
-require_once "$pomo/translations.php";
+require_once( "$pomo/entry.php" );
+require_once( "$pomo/translations.php" );
 
 /**
  * Responsible for extracting translatable strings from PHP source files
@@ -9,54 +9,61 @@ require_once "$pomo/translations.php";
  */
 class StringExtractor {
 
-	var $rules = array(
+	public $rules = array(
 		'__' => array( 'string' ),
 		'_e' => array( 'string' ),
 		'_n' => array( 'singular', 'plural' ),
 	);
-	var $comment_prefix = 'translators:';
 
-	function __construct( $rules = array() ) {
+	public $comment_prefix = 'translators:';
+
+	public function __construct( $rules = array() ) {
 		$this->rules = $rules;
 	}
 
-	function extract_from_directory( $dir, $excludes = array(), $includes = array(), $prefix = '' ) {
+	public function extract_from_directory( $dir, $excludes = array(), $includes = array(), $prefix = '' ) {
 		$old_cwd = getcwd();
 		chdir( $dir );
 		$translations = new Translations;
 		$file_names = (array) scandir( '.' );
 		foreach ( $file_names as $file_name ) {
-			if ( '.' == $file_name || '..' == $file_name ) continue;
+			if ( '.' == $file_name || '..' == $file_name ) {
+				continue;
+			}
 			if ( preg_match( '/\.php$/', $file_name ) && $this->does_file_name_match( $prefix . $file_name, $excludes, $includes ) ) {
-				$translations->merge_originals_with( $this->extract_from_file( $file_name, $prefix ) );
+				$extracted = $this->extract_from_file( $file_name, $prefix );
+				$translations->merge_originals_with( $extracted );
 			}
 			if ( is_dir( $file_name ) ) {
-				$translations->merge_originals_with( $this->extract_from_directory( $file_name, $excludes, $includes, $prefix . $file_name . '/' ) );
+				$extracted = $this->extract_from_directory( $file_name, $excludes, $includes, $prefix . $file_name . '/' );
+				$translations->merge_originals_with( $extracted );
 			}
 		}
 		chdir( $old_cwd );
 		return $translations;
 	}
 
-	function extract_from_file( $file_name, $prefix ) {
+	public function extract_from_file( $file_name, $prefix ) {
 		$code = file_get_contents( $file_name );
 		return $this->extract_from_code( $code, $prefix . $file_name );
 	}
 
-	function does_file_name_match( $path, $excludes, $includes ) {
+	public function does_file_name_match( $path, $excludes, $includes ) {
 		if ( $includes ) {
 			$matched_any_include = false;
 			foreach( $includes as $include ) {
-				if ( preg_match( '|^'.$include.'$|', $path ) ) {
+				if ( preg_match( '|^' . $include . '$|', $path ) ) {
 					$matched_any_include = true;
 					break;
 				}
 			}
-			if ( !$matched_any_include ) return false;
+			if ( ! $matched_any_include ) {
+				return false;
+			}
 		}
 		if ( $excludes ) {
 			foreach( $excludes as $exclude ) {
-				if ( preg_match( '|^'.$exclude.'$|', $path ) ) {
+				if ( preg_match( '|^' . $exclude . '$|', $path ) ) {
 					return false;
 				}
 			}
@@ -64,44 +71,48 @@ class StringExtractor {
 		return true;
 	}
 
-	function entry_from_call( $call, $file_name ) {
-		$rule = isset( $this->rules[$call['name']] )? $this->rules[$call['name']] : null;
-		if ( !$rule ) return null;
+	public function entry_from_call( $call, $file_name ) {
+		$rule = isset( $this->rules[ $call['name'] ] )? $this->rules[ $call['name'] ] : null;
+		if ( ! $rule ) {
+			return null;
+		}
 		$entry = new Translation_Entry;
 		$multiple = array();
 		$complete = false;
 		for( $i = 0; $i < count( $rule ); ++$i ) {
-			if ( $rule[$i] && ( !isset( $call['args'][$i] ) || !is_string( $call['args'][$i] ) || '' == $call['args'][$i] ) ) return false;
-			switch( $rule[$i] ) {
-			case 'string':
-				if ( $complete ) {
-					$multiple[] = $entry;
-					$entry = new Translation_Entry;
-					$complete = false;
-				}
-				$entry->singular = $call['args'][$i];
-				$complete = true;
-				break;
-			case 'singular':
-				if ( $complete ) {
-					$multiple[] = $entry;
-					$entry = new Translation_Entry;
-					$complete = false;
-				}
-				$entry->singular = $call['args'][$i];
-				$entry->is_plural = true;
-				break;
-			case 'plural':
-				$entry->plural = $call['args'][$i];
-				$entry->is_plural = true;
-				$complete = true;
-				break;
-			case 'context':
-				$entry->context = $call['args'][$i];
-				foreach( $multiple as &$single_entry ) {
-					$single_entry->context = $entry->context;
-				}
-				break;
+			if ( $rule[ $i ] && ( ! isset( $call['args'][ $i ] ) || ! is_string( $call['args'][ $i ] ) || '' == $call['args'][ $i ] ) ) {
+				return false;
+			}
+			switch( $rule[ $i ] ) {
+				case 'string':
+					if ( $complete ) {
+						$multiple[] = $entry;
+						$entry = new Translation_Entry;
+						$complete = false;
+					}
+					$entry->singular = $call['args'][ $i ];
+					$complete = true;
+					break;
+				case 'singular':
+					if ( $complete ) {
+						$multiple[] = $entry;
+						$entry = new Translation_Entry;
+						$complete = false;
+					}
+					$entry->singular = $call['args'][ $i ];
+					$entry->is_plural = true;
+					break;
+				case 'plural':
+					$entry->plural = $call['args'][ $i ];
+					$entry->is_plural = true;
+					$complete = true;
+					break;
+				case 'context':
+					$entry->context = $call['args'][ $i ];
+					foreach( $multiple as &$single_entry ) {
+						$single_entry->context = $entry->context;
+					}
+					break;
 			}
 		}
 		if ( isset( $call['line'] ) && $call['line'] ) {
@@ -126,16 +137,18 @@ class StringExtractor {
 		return $entry;
 	}
 
-	function extract_from_code( $code, $file_name ) {
+	public function extract_from_code( $code, $file_name ) {
 		$translations = new Translations;
 		$function_calls = $this->find_function_calls( array_keys( $this->rules ), $code );
 		foreach( $function_calls as $call ) {
 			$entry = $this->entry_from_call( $call, $file_name );
-			if ( is_array( $entry ) )
-				foreach( $entry as $single_entry )
+			if ( is_array( $entry ) ) {
+				foreach( $entry as $single_entry ) {
 					$translations->add_entry_or_merge( $single_entry );
-			elseif ( $entry)
+				}
+			} elseif ( $entry ) {
 				$translations->add_entry_or_merge( $entry );
+			}
 		}
 		return $translations;
 	}
@@ -146,16 +159,20 @@ class StringExtractor {
 	 *	- args - array for the function arguments. Each string literal is represented by itself, other arguments are represented by null.
 	 *  - line - line number
 	 */
-	function find_function_calls( $function_names, $code ) {
+	public function find_function_calls( $function_names, $code ) {
 		$tokens = token_get_all( $code );
 		$function_calls = array();
 		$latest_comment = false;
 		$in_func = false;
 		foreach( $tokens as $token ) {
 			$id = $text = null;
-			if ( is_array( $token ) ) list( $id, $text, $line ) = $token;
-			if ( T_WHITESPACE == $id ) continue;
-			if ( T_STRING == $id && in_array( $text, $function_names ) && !$in_func ) {
+			if ( is_array( $token ) ) {
+				list( $id, $text, $line ) = $token;
+			}
+			if ( T_WHITESPACE == $id ) {
+				continue;
+			}
+			if ( T_STRING == $id && in_array( $text, $function_names ) && ! $in_func ) {
 				$in_func = true;
 				$paren_level = -1;
 				$args = array();
@@ -173,10 +190,12 @@ class StringExtractor {
 					$latest_comment = $text;
 				}
 			}
-			if ( !$in_func ) continue;
+			if ( ! $in_func ) {
+				continue;
+			}
 			if ( '(' == $token ) {
 				$paren_level++;
-				if ( 0 == $paren_level ) { // start of first argument
+				if ( 0 == $paren_level ) { // Start of first argument.
 					$just_got_into_func = false;
 					$current_argument = null;
 					$current_argument_is_just_literal = true;
@@ -184,7 +203,7 @@ class StringExtractor {
 				continue;
 			}
 			if ( $just_got_into_func ) {
-				// there wasn't a opening paren just after the function name -- this means it is not a function
+				// There wasn't an opening paren just after the function name -- this means it is not a function.
 				$in_func = false;
 				$just_got_into_func = false;
 			}
@@ -193,7 +212,9 @@ class StringExtractor {
 					$in_func = false;
 					$args[] = $current_argument;
 					$call = array( 'name' => $func_name, 'args' => $args, 'line' => $func_line );
-					if ( $func_comment ) $call['comment'] = $func_comment;
+					if ( $func_comment ) {
+						$call['comment'] = $func_comment;
+					}
 					$function_calls[] = $call;
 				}
 				$paren_level--;
@@ -206,8 +227,8 @@ class StringExtractor {
 				continue;
 			}
 			if ( T_CONSTANT_ENCAPSED_STRING == $id && $current_argument_is_just_literal ) {
-				// we can use eval safely, because we are sure $text is just a string literal
-				eval('$current_argument = '.$text.';' );
+				// We can use eval safely, because we are sure $text is just a string literal.
+				eval( '$current_argument = ' . $text . ';' );
 				continue;
 			}
 			$current_argument_is_just_literal = false;

@@ -24,7 +24,7 @@ class POMO_Reader {
 	 *
 	 * @param $endian string 'big' or 'little'
 	 */
-	function setEndian($endian) {
+	public function setEndian($endian) {
 		$this->endian = $endian;
 	}
 
@@ -34,13 +34,13 @@ class POMO_Reader {
 	 * @return mixed The integer, corresponding to the next 32 bits from
 	 * 	the stream of false if there are not enough bytes or on error
 	 */
-	function readint32() {
-		$bytes = $this->read(4);
-		if (4 != $this->strlen($bytes))
+	public function readint32() {
+		$bytes = $this->read( 4 );
+		if ( 4 != $this->strlen( $bytes ) )
 			return false;
-		$endian_letter = ('big' == $this->endian)? 'N' : 'V';
+		$endian_letter = ( 'big' == $this->endian ) ? 'N' : 'V';
 		$int = unpack($endian_letter, $bytes);
-		return array_shift($int);
+		return array_shift( $int );
 	}
 
 	/**
@@ -50,37 +50,37 @@ class POMO_Reader {
 	 * @return mixed Array of integers or false if there isn't
 	 * 	enough data or on error
 	 */
-	function readint32array($count) {
+	public function readint32array( $count ) {
 		$bytes = $this->read(4 * $count);
-		if (4*$count != $this->strlen($bytes))
+		if ( 4*$count != $this->strlen( $bytes ) )
 			return false;
-		$endian_letter = ('big' == $this->endian)? 'N' : 'V';
-		return unpack($endian_letter.$count, $bytes);
+		$endian_letter = ( 'big' == $this->endian ) ? 'N' : 'V';
+		return unpack( $endian_letter.$count, $bytes );
 	}
 
 
-	function substr($string, $start, $length) {
-		if ($this->is_overloaded) {
-			return mb_substr($string, $start, $length, 'ascii');
+	public function substr( $string, $start, $length ) {
+		if ( $this->is_overloaded ) {
+			return mb_substr( $string, $start, $length, 'ascii' );
 		} else {
-			return substr($string, $start, $length);
+			return substr( $string, $start, $length );
 		}
 	}
 
-	function strlen($string) {
-		if ($this->is_overloaded) {
-			return mb_strlen($string, 'ascii');
+	public function strlen( $string ) {
+		if ( $this->is_overloaded ) {
+			return mb_strlen( $string, 'ascii' );
 		} else {
-			return strlen($string);
+			return strlen( $string );
 		}
 	}
 
-	function str_split($string, $chunk_size) {
-		if (!function_exists('str_split')) {
-			$length = $this->strlen($string);
+	function str_split( $string, $chunk_size ) {
+		if ( !function_exists( 'str_split' ) ) {
+			$length = $this->strlen( $string );
 			$out = array();
-			for ($i = 0; $i < $length; $i += $chunk_size)
-				$out[] = $this->substr($string, $i, $chunk_size);
+			for ( $i = 0; $i < $length; $i += $chunk_size )
+				$out[] = $this->substr( $string, $i, $chunk_size );
 			return $out;
 		} else {
 			return str_split( $string, $chunk_size );
@@ -88,15 +88,15 @@ class POMO_Reader {
 	}
 
 
-	function pos() {
+	public function pos() {
 		return $this->_pos;
 	}
 
-	function is_resource() {
+	public function is_resource() {
 		return true;
 	}
 
-	function close() {
+	public function close() {
 		return true;
 	}
 }
@@ -104,39 +104,39 @@ endif;
 
 if ( !class_exists( 'POMO_FileReader' ) ):
 class POMO_FileReader extends POMO_Reader {
-	function POMO_FileReader($filename) {
+	function POMO_FileReader ($filename ) {
 		parent::POMO_Reader();
-		$this->_f = fopen($filename, 'rb');
+		$this->_f = fopen( $filename, 'rb' );
 	}
 
-	function read($bytes) {
-		return fread($this->_f, $bytes);
+	public function read( $bytes ) {
+		return fread( $this->_f, $bytes );
 	}
 
-	function seekto($pos) {
-		if ( -1 == fseek($this->_f, $pos, SEEK_SET)) {
+	public function seekto( $pos ) {
+		if ( -1 == fseek( $this->_f, $pos, SEEK_SET ) ) {
 			return false;
 		}
 		$this->_pos = $pos;
 		return true;
 	}
 
-	function is_resource() {
-		return is_resource($this->_f);
+	public function is_resource() {
+		return is_resource( $this->_f );
 	}
 
-	function feof() {
-		return feof($this->_f);
+	public function feof() {
+		return feof( $this->_f );
 	}
 
-	function close() {
-		return fclose($this->_f);
+	public function close() {
+		return fclose( $this->_f );
 	}
 
-	function read_all() {
+	public function read_all() {
 		$all = '';
 		while ( !$this->feof() )
-			$all .= $this->read(4096);
+			$all .= $this->read( 4096 );
 		return $all;
 	}
 }
@@ -151,32 +151,32 @@ class POMO_StringReader extends POMO_Reader {
 
 	var $_str = '';
 
-	function POMO_StringReader($str = '') {
+	public function POMO_StringReader( $str = '' ) {
 		parent::POMO_Reader();
 		$this->_str = $str;
 		$this->_pos = 0;
 	}
 
 
-	function read($bytes) {
-		$data = $this->substr($this->_str, $this->_pos, $bytes);
+	public function read( $bytes ) {
+		$data = $this->substr( $this->_str, $this->_pos, $bytes );
 		$this->_pos += $bytes;
-		if ($this->strlen($this->_str) < $this->_pos) $this->_pos = $this->strlen($this->_str);
+		if ( $this->strlen( $this->_str ) < $this->_pos ) $this->_pos = $this->strlen( $this->_str );
 		return $data;
 	}
 
-	function seekto($pos) {
+	public function seekto( $pos ) {
 		$this->_pos = $pos;
-		if ($this->strlen($this->_str) < $this->_pos) $this->_pos = $this->strlen($this->_str);
+		if ( $this->strlen( $this->_str ) < $this->_pos ) $this->_pos = $this->strlen( $this->_str );
 		return $this->_pos;
 	}
 
-	function length() {
-		return $this->strlen($this->_str);
+	public function length() {
+		return $this->strlen( $this->_str );
 	}
 
-	function read_all() {
-		return $this->substr($this->_str, $this->_pos, $this->strlen($this->_str));
+	public function read_all() {
+		return $this->substr( $this->_str, $this->_pos, $this->strlen( $this->_str ) );
 	}
 
 }
@@ -187,10 +187,10 @@ if ( !class_exists( 'POMO_CachedFileReader' ) ):
  * Reads the contents of the file in the beginning.
  */
 class POMO_CachedFileReader extends POMO_StringReader {
-	function POMO_CachedFileReader($filename) {
+	public function POMO_CachedFileReader( $filename ) {
 		parent::POMO_StringReader();
-		$this->_str = file_get_contents($filename);
-		if (false === $this->_str)
+		$this->_str = file_get_contents( $filename );
+		if ( false === $this->_str )
 			return false;
 		$this->_pos = 0;
 	}
@@ -202,8 +202,8 @@ if ( !class_exists( 'POMO_CachedIntFileReader' ) ):
  * Reads the contents of the file in the beginning.
  */
 class POMO_CachedIntFileReader extends POMO_CachedFileReader {
-	function POMO_CachedIntFileReader($filename) {
-		parent::POMO_CachedFileReader($filename);
+	public function POMO_CachedIntFileReader( $filename ) {
+		parent::POMO_CachedFileReader( $filename );
 	}
 }
 endif;
