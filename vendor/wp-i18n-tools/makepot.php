@@ -8,9 +8,9 @@ if ( ! defined( 'STDERR' ) ) {
 }
 
 class MakePOT {
-	protected $max_header_lines = 30;
+	public $max_header_lines = 30;
 
-	protected $projects = array(
+	public $projects = array(
 		'generic',
 		'wp-frontend',
 		'wp-admin',
@@ -27,7 +27,7 @@ class MakePOT {
 		'wporg-bb-forums',
 	);
 
-	protected $rules = array(
+	public $rules = array(
 		'_'                    => array( 'string' ),
 		'__'                   => array( 'string' ),
 		'_e'                   => array( 'string' ),
@@ -52,7 +52,7 @@ class MakePOT {
 		'comments_number_link' => array( 'string', 'singular', 'plural' ),
 	);
 
-	protected $ms_files = array(
+	public $ms_files = array(
 		'ms-.*',
 		'.*/ms-.*',
 		'.*/my-.*',
@@ -64,9 +64,9 @@ class MakePOT {
 		'wp-admin/includes/class-wp-ms.*',
 	);
 
-	protected $temp_files = array();
+	public $temp_files = array();
 
-	protected $meta = array(
+	public $meta = array(
 		'default' => array(
 			'from-code'          => 'utf-8',
 			'msgid-bugs-address' => 'http://make.wordpress.org/polyglots',
@@ -465,7 +465,7 @@ class MakePOT {
 
 	}
 
-	public function get_first_lines( $filename, $lines = 30 ) {
+	public static function get_first_lines( $filename, $lines = 30 ) {
 		$extf = fopen( $filename, 'r' );
 		if ( ! $extf ) {
 			return false;
@@ -484,7 +484,7 @@ class MakePOT {
 		return $first_lines;
 	}
 
-	public function get_addon_header( $header, &$source ) {
+	public static function get_addon_header( $header, $source ) {
 		if ( preg_match( '|' . $header . ':(.*)$|mi', $source, $matches ) ) {
 			return trim( $matches[1] );
 		} else {
@@ -508,7 +508,7 @@ class MakePOT {
 		return $slug;
 	}
 
-	public function wp_plugin( $dir, $output, $slug = null, $excludes = '' ) {
+	public function wp_plugin( $dir, $output, $slug = null ) {
 		$placeholders = array();
 		// Guess plugin slug.
 		if ( is_null( $slug ) ) {
@@ -523,17 +523,19 @@ class MakePOT {
 		$placeholders['slug'] = $slug;
 
 		$output = is_null( $output )? "$slug.pot" : $output;
-		$res = $this->xgettext( 'wp-plugin', $dir, $output, $placeholders, self::sanitize_excludes( $excludes ) );
+		$res = $this->xgettext( 'wp-plugin', $dir, $output, $placeholders );
 		if ( ! $res ) {
 			return false;
 		}
 		$potextmeta = new PotExtMeta;
 		$res = $potextmeta->append( $main_file, $output );
-		// Duplicated phrases are removed in grunt-wp-i18n.
+		/* Adding non-gettexted strings can repeat some phrases */
+		$output_shell = escapeshellarg( $output );
+		system( "msguniq $output_shell -o $output_shell" );
 		return $res;
 	}
 
-	public function wp_theme( $dir, $output, $slug = null, $excludes = '' ) {
+	public function wp_theme( $dir, $output, $slug = null ) {
 		$placeholders = array();
 		// Guess theme slug.
 		if ( is_null( $slug ) ) {
@@ -555,7 +557,7 @@ class MakePOT {
 		}
 
 		$output = is_null( $output )? "$slug.pot" : $output;
-		$res = $this->xgettext( 'wp-theme', $dir, $output, $placeholders, self::sanitize_excludes( $excludes ) );
+		$res = $this->xgettext( 'wp-theme', $dir, $output, $placeholders );
 		if ( ! $res ) {
 			return false;
 		}
@@ -588,7 +590,9 @@ class MakePOT {
 				}
 			}
 		}
-		// Duplicated phrases are removed in grunt-wp-i18n.
+		/* Adding non-gettexted strings can repeat some phrases */
+		$output_shell = escapeshellarg( $output );
+		system( "msguniq $output_shell -o $output_shell" );
 		return $res;
 	}
 
@@ -635,29 +639,17 @@ class MakePOT {
 	public function is_not_ms_file( $file_name ) {
 		return ! $this->is_ms_file( $file_name );
 	}
-
-	public function sanitize_excludes( $excludes ) {
-		if ( is_string( $excludes ) ) {
-			$excludes = explode( ',', $excludes );
-		}
-		// Remote empty items and non-strings.
-		return array_filter( array_filter( (array) $excludes ), 'is_string' );
-	}
 }
 
 // Run the CLI only if the file wasn't included.
 $included_files = get_included_files();
 if ( __FILE__ == $included_files[0] ) {
 	$makepot = new MakePOT;
-	$method = str_replace( '-', '_', $argv[1] );
-
-	if ( in_array( count( $argv ), range( 3, 6 ) ) && in_array( $method, get_class_methods( $makepot ) ) ) {
+	if ( ( 3 == count( $argv ) || 4 == count( $argv ) ) && in_array( $method = str_replace( '-', '_', $argv[1] ), get_class_methods( $makepot ) ) ) {
 		$res = call_user_func(
 			array( $makepot, $method ),         // Method
 			realpath( $argv[2] ),               // Directory
-			isset( $argv[3] )? $argv[3] : null, // Output
-			isset( $argv[4] )? $argv[4] : null, // Slug
-			isset( $argv[5] )? $argv[5] : null  // Excludes
+			isset( $argv[3] ) ? $argv[3] : null // Output
 		);
 		if ( false === $res ) {
 			fwrite( STDERR, "Couldn't generate POT file!\n" );
@@ -666,7 +658,7 @@ if ( __FILE__ == $included_files[0] ) {
 		$usage  = "Usage: php makepot.php PROJECT DIRECTORY [OUTPUT]\n\n";
 		$usage .= "Generate POT file from the files in DIRECTORY [OUTPUT]\n";
 		$usage .= "Available projects: " . implode( ', ', $makepot->projects ) . "\n";
-		fwrite( STDERR, $usage);
+		fwrite( STDERR, $usage );
 		exit( 1 );
 	}
 }
