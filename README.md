@@ -225,6 +225,11 @@ Options defined in Gruntfile.js are shared between anyone working on a project, 
 
 ## Release History
 
+#### 0.4.1
+
+* Cleaned up strict errors and applied basic coding standards to the WP i18n tools. Props @grappler.
+* Incorporated upstream improvements for finding the main plugin file.
+
 #### 0.4.0
 
 * Added an `exclude` option to ignore strings in specified directories or files.
