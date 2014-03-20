@@ -35,6 +35,7 @@ module.exports = function( grunt ) {
 			cmdArgs, o;
 
 		o = this.options({
+			processPot: null,
 			cwd: process.cwd(),
 			domainPath: '',
 			exclude: [],
@@ -111,8 +112,13 @@ module.exports = function( grunt ) {
 			if ( 0 === code && grunt.file.exists( o.potFile ) ) {
 				// Remove duplicates from the POT file.
 				pot = gettext.po.parse( grunt.file.read( o.potFile ) );
-				grunt.file.write( o.potFile, gettext.po.compile( pot ) );
 
+				// Allow the POT file to be modified with a callback.
+				if ( _.isFunction( o.processPot ) ) {
+					pot = o.processPot.call( undefined, pot, o );
+				}
+
+				grunt.file.write( o.potFile, gettext.po.compile( pot ) );
 				grunt.log.ok( 'POT file saved to ' + o.potFile );
 			}
 
