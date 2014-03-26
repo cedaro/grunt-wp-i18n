@@ -57,6 +57,7 @@ grunt.initConfig({
                 i18nToolsPath: '', // Path to the i18n tools directory.
                 mainFile: '',      // Main project file.
                 potFilename: '',   // Name of the POT file.
+                processPot: null,  // A callback function for manipulating the POT file.
                 type: 'wp-plugin'  // Type of project (wp-plugin or wp-theme).
             }
         }
@@ -106,6 +107,12 @@ Example value: `'plugin-or-theme-slug.pot'`
 
 Name of the POT file. Defaults to the "Text Domain" header if it exists, otherwise uses the project directory name.
 
+#### options.processPot
+Type: `Function( pot, options )`  
+Default value: `null`  
+
+A callback function for advanced manipulation of the POT file after it's generated.
+
 #### options.type
 Type: `String`
 Default value: `'wp-plugin'`  
@@ -145,6 +152,11 @@ grunt.initConfig({
                 domainPath: '/languages',
                 mainFile: 'plugin-slug.php',
                 potFilename: 'plugin-slug.pot',
+                processPot: function( pot, options ) {
+                    pot.headers['report-msgid-bugs-to'] = 'http://example.com/issues';
+                    pot.headers['language-team'] = 'Team Name <team@example.com>';
+                    return pot;
+                },
                 type: 'wp-plugin'
             }
         }
@@ -224,6 +236,10 @@ Options defined in Gruntfile.js are shared between anyone working on a project, 
 
 
 ## Release History
+
+#### 0.4.2
+
+* Added the `processPot` option to specify a callback for advanced manipulation of the POT file after it's been generated.
 
 #### 0.4.1
 
