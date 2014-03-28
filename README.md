@@ -237,6 +237,10 @@ Options defined in Gruntfile.js are shared between anyone working on a project, 
 
 ## Release History
 
+#### 0.4.3
+
+* Re-tag updates from 0.4.2 that didn't get added to the release.
+
 #### 0.4.2
 
 * Added the `processPot` option to specify a callback for advanced manipulation of the POT file after it's been generated.
