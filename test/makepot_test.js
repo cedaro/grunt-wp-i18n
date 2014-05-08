@@ -61,6 +61,17 @@ exports.makepot = {
 		test.done();
 	},
 
+	theme_headers: function( test ) {
+		test.expect( 2 );
+		var potFile = 'tmp/theme-headers/theme-headers.pot';
+		test.ok( grunt.file.exists( potFile ), 'should compile a pot file in the main theme directory' );
+
+		var pot = gettext.po.parse( grunt.file.read( potFile ) );
+		var teamHeader = 'Team Name <team@example.com>';
+		test.equal( teamHeader, pot.headers['language-team'], 'the language team header should match the value set in the processPot callback.' );
+		test.done();
+	},
+
 	ignore_headers: function( test ) {
 		test.expect( 1 );
 		var potFile = 'tmp/plugin-headers/override.pot';
