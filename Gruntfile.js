@@ -71,6 +71,16 @@ module.exports = function(grunt) {
 					type: 'wp-plugin'
 				}
 			},
+			theme_headers: {
+				options: {
+					cwd: 'tmp/theme-headers',
+					processPot: function( pot, options ) {
+						pot.headers['language-team'] = 'Team Name <team@example.com>';
+						return pot;
+					},
+					type: 'wp-theme'
+				}
+			},
 			ignore_headers: {
 				options: {
 					cwd: 'tmp/plugin-headers',
