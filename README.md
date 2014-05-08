@@ -86,7 +86,7 @@ Type: `String`
 Default value: `[]]`  
 Example value: `'['subdir/.*']'`
 
-List of files or directories to ignore when generating the POT file. Note that the globbing pattern is a basic PHP [regular expression](https://github.com/blazersix/grunt-wp-i18n/blob/develop/vendor/wp-i18n-tools/extract.php#L59).
+List of files or directories to ignore when generating the POT file. Note that the globbing pattern is a basic PHP [regular expression](https://github.com/blazersix/grunt-wp-i18n/blob/develop/vendor/wp-i18n-tools/extract.php#L66).
 
 #### options.i18nToolsPath
 Type: `String`
