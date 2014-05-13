@@ -32,7 +32,7 @@ module.exports = function( grunt ) {
 		var done = this.async(),
 			defaultI18nToolsPath = path.resolve( __dirname, '../vendor/wp-i18n-tools/' ),
 			gruntBase = process.cwd(),
-			cmdArgs, o;
+			cmdArgs, o, originalPot;
 
 		o = this.options({
 			processPot: null,
@@ -42,7 +42,8 @@ module.exports = function( grunt ) {
 			i18nToolsPath: defaultI18nToolsPath,
 			mainFile: '',
 			potFilename: '',
-			type: 'wp-plugin'
+			type: 'wp-plugin',
+			updateTimestamp: true
 		});
 
 		// Set the current working directory.
@@ -102,6 +103,11 @@ module.exports = function( grunt ) {
 			cmdArgs.push( o.exclude.join( ',' ) );
 		}
 
+		// Parse the existing POT file to compare for changes.
+		if ( ! o.updateTimestamp && grunt.file.exists( o.potFile ) ) {
+			originalPot = gettext.po.parse( grunt.file.read( o.potFile ) );
+		}
+
 		grunt.util.spawn({
 			cmd: 'php',
 			args: cmdArgs,
@@ -116,6 +122,11 @@ module.exports = function( grunt ) {
 				// Allow the POT file to be modified with a callback.
 				if ( _.isFunction( o.processPot ) ) {
 					pot = o.processPot.call( undefined, pot, o );
+				}
+
+				// Determine if the creation date is the only thing that changed.
+				if ( ! o.updateTimestamp && ! _.isUndefined( originalPot ) ) {
+					pot = util.comparePotFiles( originalPot, pot ) ? originalPot : pot;
 				}
 
 				grunt.file.write( o.potFile, gettext.po.compile( pot ) );

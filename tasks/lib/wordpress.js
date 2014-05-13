@@ -27,7 +27,7 @@ exports.init = function( grunt ) {
 			file = exports.getMainFile();
 		}
 
-		if ( grunt.file.exists( file ) ) {
+		if ( file && grunt.file.exists( file ) ) {
 			pattern = new RegExp( name + ':(.*)$', 'mi' );
 			matches = grunt.file.read( file ).match( pattern );
 
