@@ -51,14 +51,15 @@ grunt.initConfig({
     makepot: {
         target: {
             options: {
-                cwd: '',           // Directory of files to internationalize.
-                domainPath: '',    // Where to save the POT file.
-                exclude: [],       // List of files or directories to ignore.
-                i18nToolsPath: '', // Path to the i18n tools directory.
-                mainFile: '',      // Main project file.
-                potFilename: '',   // Name of the POT file.
-                processPot: null,  // A callback function for manipulating the POT file.
-                type: 'wp-plugin'  // Type of project (wp-plugin or wp-theme).
+                cwd: '',              // Directory of files to internationalize.
+                domainPath: '',       // Where to save the POT file.
+                exclude: [],          // List of files or directories to ignore.
+                i18nToolsPath: '',    // Path to the i18n tools directory.
+                mainFile: '',         // Main project file.
+                potFilename: '',      // Name of the POT file.
+                processPot: null,     // A callback function for manipulating the POT file.
+                type: 'wp-plugin',    // Type of project (wp-plugin or wp-theme).
+                updateTimestamp: true // Whether the POT-Creation-Date should be updated without other changes.
             }
         }
     }
@@ -119,6 +120,12 @@ Default value: `'wp-plugin'`
 Example value: `'wp-plugin'` or `'wp-theme'`
 
 The type of project.
+
+#### options.updateTimestamp
+Type: `Boolean`  
+Default value: `true`  
+
+Whether the `POT-Creation-Date` header should be updated if no other changes to the POT file are detected.
 
 
 ### Usage Examples
