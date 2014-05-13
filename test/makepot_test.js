@@ -50,12 +50,15 @@ exports.makepot = {
 	},
 
 	plugin_headers: function( test ) {
-		test.expect( 2 );
+		test.expect( 3 );
 		var potFile = 'tmp/plugin-headers/languages/example-plugin.pot';
 		test.ok( grunt.file.exists( potFile ), 'should compile a pot file based on the text domain header in the /languages subdirectory' );
 
-		var pot = gettext.po.parse( grunt.file.read( potFile ) );
+		var pot = grunt.file.read( potFile );
+		test.equal( pot.indexOf( '# A new comment header.' ), 0, 'the comment at the beginning of the pot file should match the potComments option' );
+
 		var teamHeader = 'Team Name <team@example.com>';
+		pot = gettext.po.parse( pot );
 		test.equal( teamHeader, pot.headers['language-team'], 'the language team header should match the value set in the processPot callback.' );
 
 		test.done();

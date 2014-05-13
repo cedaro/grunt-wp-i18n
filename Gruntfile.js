@@ -71,6 +71,7 @@ module.exports = function(grunt) {
 			plugin_headers: {
 				options: {
 					cwd: 'tmp/plugin-headers',
+					potComments: 'A new comment header.',
 					processPot: function( pot, options ) {
 						pot.headers['language-team'] = 'Team Name <team@example.com>';
 						return pot;

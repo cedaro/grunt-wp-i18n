@@ -41,6 +41,13 @@ class GruntMakePOT extends MakePOT {
 		$placeholders['name'] = $this->get_addon_header( 'Plugin Name', $source );
 		$placeholders['slug'] = $slug;
 
+		$license = $this->get_addon_header( 'License', $source );
+		if ( $license ) {
+			$this->meta['wp-plugin']['comments'] = "<!=Copyright (C) {year} {author}\nThis file is distributed under the {$license}.=!>";
+		} else {
+			$this->meta['wp-plugin']['comments'] = "<!=Copyright (C) {year} {author}\nThis file is distributed under the same license as the {package-name} package.=!>";
+		}
+
 		$result = $this->xgettext( 'wp-plugin', $dir, $output, $placeholders, $excludes );
 		if ( ! $result ) {
 			return false;
@@ -79,9 +86,9 @@ class GruntMakePOT extends MakePOT {
 
 		$license = $this->get_addon_header( 'License', $source );
 		if ( $license ) {
-			$this->meta['wp-theme']['comments'] = "Copyright (C) {year} {author}\nThis file is distributed under the {$license}.";
+			$this->meta['wp-theme']['comments'] = "<!=Copyright (C) {year} {author}\nThis file is distributed under the {$license}.=!>";
 		} else {
-			$this->meta['wp-theme']['comments'] = "Copyright (C) {year} {author}\nThis file is distributed under the same license as the {package-name} package.";
+			$this->meta['wp-theme']['comments'] = "<!=Copyright (C) {year} {author}\nThis file is distributed under the same license as the {package-name} package.=!>";
 		}
 
 		$result = $this->xgettext( 'wp-theme', $dir, $output, $placeholders, $excludes );

@@ -35,13 +35,14 @@ module.exports = function( grunt ) {
 			cmdArgs, o, originalPot;
 
 		o = this.options({
-			processPot: null,
 			cwd: process.cwd(),
 			domainPath: '',
 			exclude: [],
 			i18nToolsPath: defaultI18nToolsPath,
 			mainFile: '',
+			potComments: '',
 			potFilename: '',
+			processPot: null,
 			type: 'wp-plugin',
 			updateTimestamp: true
 		});
@@ -113,11 +114,19 @@ module.exports = function( grunt ) {
 			args: cmdArgs,
 			opts: { stdio: 'inherit' }
 		}, function( error, result, code ) {
-			var pot;
+			var pattern, pot;
 
 			if ( 0 === code && grunt.file.exists( o.potFile ) ) {
+				pot = grunt.file.read( o.potFile );
+
+				// Update the comments header.
+				pattern = /# <!=([\s\S]+?)=!>/;
+				o.potComments = o.potComments || pot.match( pattern )[1];
+				o.potComments = '# ' + o.potComments.replace( /\n(# )?/g, '\n# ' ).replace( '{year}', new Date().getFullYear() );
+				pot = pot.replace( pattern, o.potComments );
+
 				// Remove duplicates from the POT file.
-				pot = gettext.po.parse( grunt.file.read( o.potFile ) );
+				pot = gettext.po.parse( pot );
 
 				// Allow the POT file to be modified with a callback.
 				if ( _.isFunction( o.processPot ) ) {
