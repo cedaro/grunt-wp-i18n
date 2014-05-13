@@ -24,27 +24,65 @@ class AddTextdomain {
 		exit( 1 );
 	}
 
-	public function process_token( $token_text, $inplace ) {
-		if ( $inplace ) {
-			$this->modified_contents .= $token_text;
+	/**
+	 * Add textdomain to a single file.
+	 *
+	 * @see AddTextdomain::process_string()
+	 *
+	 * @param string $domain          Text domain.
+	 * @param string $source_filename Filename with optional path.
+	 * @param bool   $inplace         True to modifies the PHP file in place. False to print to standard output.
+	 */
+	public function process_file( $domain, $source_filename, $inplace ) {
+		$new_source = $this->process_string( $domain, file_get_contents( $source_filename ) );
+
+		if ($inplace) {
+			$f = fopen( $source_filename, 'w' );
+			fwrite( $f, $new_source );
+			fclose( $f );
 		} else {
-			echo $token_text;
+			echo $new_source;
 		}
 	}
 
-	public function process_file( $domain, $source_filename, $inplace ) {
+	/**
+	 * Add textdomain to a string of PHP.
+	 *
+	 * Functions calls should be wrapped in opening and closing PHP delimiters as usual.
+	 *
+	 * @see AddTextdomain::process_tokens()
+	 *
+	 * @param string $domain Text domain.
+	 * @param string $string PHP code to parse.
+	 *
+	 * @return string Modified source.
+	 */
+	public function process_string( $domain, $string ) {
+		$tokens = token_get_all( $string );
+		return $this->process_tokens( $domain, $tokens );
+	}
+
+	/**
+	 * Add textdomain to a set of PHP tokens.
+	 *
+	 * @param string $domain Text domain.
+	 * @param array  $tokens PHP tokens. An array of token identifiers. Each individual token identifier is either a
+	 *                       single character (i.e.: ;, ., >, !, etc.), or a three element array containing the token
+	 *                       index in element 0, the string content of the original token in element 1 and the line
+	 *                       number in element 2.
+	 *
+	 * @return string Modified source.
+	 */
+	public function process_tokens( $domain, $tokens ) {
 		$this->modified_contents = '';
 		$domain = addslashes( $domain );
-
-		$source = file_get_contents( $source_filename );
-		$tokens = token_get_all($source);
 
 		$in_func = false;
 		$args_started = false;
 		$parens_balance = 0;
 		$found_domain = false;
 
-		foreach( $tokens as $token ) {
+		foreach( $tokens as $index => $token ) {
 			$string_success = false;
 			if ( is_array( $token ) ) {
 				list( $id, $text ) = $token;
@@ -65,20 +103,24 @@ class AddTextdomain {
 			} elseif ( ')' == $token ) {
 				--$parens_balance;
 				if ( $in_func && 0 == $parens_balance ) {
-					$token        = $found_domain? ')' : ", '$domain' )";
+					if ( ! $found_domain ) {
+						$token = ", '$domain'";
+						if ( T_WHITESPACE == $tokens[ $index - 1 ][0] ) {
+							$token .= ' '; // Maintain code standards if previously present
+							// Remove previous whitespace token to account for it.
+							$this->modified_contents = trim( $this->modified_contents );
+						}
+						$token .= ')';
+					}
 					$in_func      = false;
 					$args_started = false;
 					$found_domain = false;
 				}
 			}
-			$this->process_token( $token, $inplace );
+			$this->modified_contents .= $token;
 		}
 
-		if ( $inplace ) {
-			$f = fopen( $source_filename, 'w' );
-			fwrite( $f, $this->modified_contents );
-			fclose( $f );
-		}
+		return $this->modified_contents;
 	}
 }
 
