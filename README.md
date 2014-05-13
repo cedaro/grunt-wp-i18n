@@ -251,6 +251,12 @@ Options defined in Gruntfile.js are shared between anyone working on a project, 
 
 ## Release History
 
+#### 0.4.4
+
+* Added the `potComments` option to change the copyright message.
+* Added the `updateTimestamp` option to prevent the `POT-Creation-Header` from being updated if there aren't any other changes in the POT file.
+* Updated the addtextdomain task to adhere to the WordPress coding standards when inserting a text domain. Props [@GaryJones](https://github.com/GaryJones).
+
 #### 0.4.3
 
 * Re-tag updates from 0.4.2 that didn't get added to the release.
@@ -261,7 +267,7 @@ Options defined in Gruntfile.js are shared between anyone working on a project, 
 
 #### 0.4.1
 
-* Cleaned up strict errors and applied basic coding standards to the WP i18n tools. Props @grappler.
+* Cleaned up strict errors and applied basic coding standards to the WP i18n tools. Props [@grappler](https://github.com/grappler).
 * Incorporated upstream improvements for finding the main plugin file.
 
 #### 0.4.0
