@@ -55,6 +55,13 @@ module.exports = function(grunt) {
 					type: 'wp-plugin'
 				}
 			},
+			persist_timestamp: {
+				options: {
+					cwd: 'tmp/basic-plugin',
+					type: 'wp-plugin',
+					updateTimestamp: false
+				}
+			},
 			different_slugs: {
 				options: {
 					cwd: 'tmp/different-slugs',

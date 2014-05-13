@@ -24,7 +24,7 @@ Test assertions:
 */
 
 exports.makepot = {
-	setUp: function(done) {
+	setUp: function( done ) {
 		// setup here if necessary
 		done();
 	},
@@ -92,6 +92,32 @@ exports.makepot = {
 		test.equal( themeName, pot.translations[''][ themeName ]['msgid'], 'the theme name should be included as a string in the pot file' );
 		test.equal( templateName, pot.translations[''][ templateName ]['msgid'], 'the full width page template name should be included as a string in the pot file' );
 		test.equal( false, 'Exclude' in pot.translations[''] );
+
+		test.done();
+	},
+};
+
+exports.makepotTimestamp = {
+	potDate: '2014-03-20 19:54:59+00:00',
+
+	setUp: function( done ) {
+		var potFile = 'tmp/basic-plugin/basic-plugin.pot';
+		var pot = gettext.po.parse( grunt.file.read( potFile ) );
+
+		// Set to an old date to ensure the header isn't updated.
+		pot.headers['pot-creation-date'] = exports.makepotTimestamp.potDate;
+		grunt.file.write( potFile, gettext.po.compile( pot ) );
+
+		done();
+	},
+
+	persist_timestamp: function( test ) {
+		test.expect( 2 );
+		var potFile = 'tmp/basic-plugin/basic-plugin.pot';
+		test.ok( grunt.file.exists( potFile ), 'should compile a pot file in the main plugin directory' );
+
+		var pot = gettext.po.parse( grunt.file.read( potFile ) );
+		test.equal( exports.makepotTimestamp.potDate, pot.headers['pot-creation-date'], 'the pot creation date header should not be updated' );
 
 		test.done();
 	},
