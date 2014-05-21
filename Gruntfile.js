@@ -15,15 +15,15 @@ module.exports = function( grunt ) {
 
 		// Validate files with JSHint.
 		jshint: {
-			options: {
-				jshintrc: '.jshintrc'
-			},
 			all: [
 				'Gruntfile.js',
 				'tasks/*.js',
 				'tasks/lib/*.js',
 				'<%= nodeunit.tests %>'
-			]
+			],
+			options: {
+				jshintrc: '.jshintrc'
+			}
 		},
 
 		// Before generating any new files, remove any previously-created files.
