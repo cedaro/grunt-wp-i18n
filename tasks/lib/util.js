@@ -13,7 +13,7 @@ exports.init = function( grunt ) {
 		exports = {};
 
 	/**
-	 * Normalize headers in POT objects created by gettext-parser.
+	 * Normalize POT objects created by gettext-parser.
 	 *
 	 * Headers are stored in two locations.
 	 *
@@ -22,7 +22,7 @@ exports.init = function( grunt ) {
 	 *
 	 * @return {Object}
 	 */
-	function normalizeHeaders( pot, data ) {
+	function normalizePotData( pot, data ) {
 		// Normalize the content type case.
 		pot.headers['content-type'] = pot.headers['content-type'].toLowerCase();
 		pot.translations['']['']['msgstr'][0] = pot.translations['']['']['msgstr'][0].replace( /UTF-8/, 'utf-8' );
@@ -49,11 +49,11 @@ exports.init = function( grunt ) {
 	exports.comparePotFiles = function( original, compare ) {
 		var compareHash, originalDate, originalHash;
 
-		original = normalizeHeaders( original );
+		original = normalizePotData( original );
 		originalDate = original.headers['pot-creation-date'];
 		originalHash = crypto.createHash( 'md5' ).update( JSON.stringify( original ) ).digest( 'hex' );
 
-		compare = normalizeHeaders( compare, { date: originalDate });
+		compare = normalizePotData( compare, { date: originalDate });
 		compareHash = crypto.createHash( 'md5' ).update( JSON.stringify( compare ) ).digest( 'hex' );
 
 		return originalHash === compareHash;
