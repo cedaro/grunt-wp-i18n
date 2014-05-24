@@ -140,7 +140,12 @@ module.exports = function( grunt ) {
 					pot = util.comparePotFiles( originalPot, pot ) ? originalPot : pot;
 				}
 
-				grunt.file.write( o.potFile, gettext.po.compile( pot ) );
+				// Fix headers.
+				pot = gettext.po.compile( pot ).toString();
+				pot = util.fixHeaders( pot );
+
+				// Save the POT file.
+				grunt.file.write( o.potFile, pot );
 				grunt.log.ok( 'POT file saved to ' + o.potFile );
 			}
 

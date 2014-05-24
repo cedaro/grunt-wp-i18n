@@ -77,5 +77,21 @@ exports.init = function( grunt ) {
 		return localConfig;
 	};
 
+	/**
+	 * Fix POT headers.
+	 *
+	 * Updates case-sensitive Poedit headers.
+	 *
+	 * @param {String} pot POT file contents.
+	 *
+	 * @return {String}
+	 */
+	exports.fixHeaders = function( pot ) {
+		pot = pot.replace( /x-poedit-keywordslist:/i, 'X-Poedit-KeywordsList:' );
+		pot = pot.replace( /x-poedit-searchpath-0:/i, 'X-Poedit-SearchPath-0:' );
+		pot = pot.replace( /x-poedit-sourcecharset:/i, 'X-Poedit-SourceCharset:' );
+		return pot;
+	};
+
 	return exports;
 };
