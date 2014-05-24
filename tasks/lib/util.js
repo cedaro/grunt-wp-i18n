@@ -9,7 +9,8 @@
 'use strict';
 
 exports.init = function( grunt ) {
-	var crypto = require( 'crypto' ),
+	var _ = require( 'underscore' ),
+		crypto = require( 'crypto' ),
 		exports = {};
 
 	/**
@@ -75,6 +76,25 @@ exports.init = function( grunt ) {
 		}
 
 		return localConfig;
+	};
+
+	/**
+	 * Merge custom POT headers.
+	 *
+	 * @param {Object} pot POT file object created by gettext-parser.
+	 * @param {Object} headers Header key value pairs.
+	 *
+	 * @param {Object}
+	 */
+	exports.mergeHeaders = function( pot, headers ) {
+		if ( _.isEmpty( headers ) ) {
+			return pot;
+		}
+
+		// Merge headers
+		headers = _.extend( pot.headers, headers );
+
+		return pot;
 	};
 
 	/**

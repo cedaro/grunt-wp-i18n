@@ -43,6 +43,7 @@ module.exports = function( grunt ) {
 			mainFile: '',
 			potComments: '',
 			potFilename: '',
+			potHeaders: {},
 			processPot: null,
 			type: 'wp-plugin',
 			updateTimestamp: true
@@ -128,7 +129,10 @@ module.exports = function( grunt ) {
 
 				// Remove duplicate entries from the POT file.
 				pot = gettext.po.parse( pot );
+
+				// Merge custom headers.
 				pot.headers['x-generator'] = 'grunt-wp-i18n ' + pkg.version;
+				pot = util.mergeHeaders( pot, o.potHeaders );
 
 				// Allow the POT file to be modified with a callback.
 				if ( _.isFunction( o.processPot ) ) {
