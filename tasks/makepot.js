@@ -13,6 +13,7 @@ module.exports = function( grunt ) {
 	var _ = require( 'underscore' ),
 		gettext = require( 'gettext-parser' ),
 		path = require( 'path' ),
+		pkg = require( '../package.json' ),
 		util = require( './lib/util' ).init( grunt ),
 		localConfig = util.getLocalConfig(),
 		wp = require( './lib/wordpress' ).init( grunt );
@@ -125,8 +126,9 @@ module.exports = function( grunt ) {
 				o.potComments = '# ' + o.potComments.replace( /\n(# )?/g, '\n# ' ).replace( '{year}', new Date().getFullYear() );
 				pot = pot.replace( pattern, o.potComments );
 
-				// Remove duplicates from the POT file.
+				// Remove duplicate entries from the POT file.
 				pot = gettext.po.parse( pot );
+				pot.headers['x-generator'] = 'grunt-wp-i18n ' + pkg.version;
 
 				// Allow the POT file to be modified with a callback.
 				if ( _.isFunction( o.processPot ) ) {
