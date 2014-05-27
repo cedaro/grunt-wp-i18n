@@ -177,7 +177,7 @@ class MakePOT {
 		$meta = array_merge( $this->meta['default'], $this->meta[ $project ] );
 		$placeholders = array_merge( $meta, $placeholders );
 		$meta['output'] = $this->realpath_missing( $output_file );
-		$placeholders['year'] = date( 'Y' );
+		$placeholders['year'] = gmdate( 'Y' );
 		$placeholder_keys = array_map( create_function( '$x', 'return "{".$x."}";' ), array_keys( $placeholders ) );
 		$placeholder_values = array_values( $placeholders );
 		foreach( $meta as $key => $value ) {
@@ -194,7 +194,7 @@ class MakePOT {
 		$pot->set_header( 'MIME-Version', '1.0' );
 		$pot->set_header( 'Content-Type', 'text/plain; charset=UTF-8' );
 		$pot->set_header( 'Content-Transfer-Encoding', '8bit' );
-		$pot->set_header( 'PO-Revision-Date', date( 'Y') . '-MO-DA HO:MI+ZONE' );
+		$pot->set_header( 'PO-Revision-Date', gmdate( 'Y' ) . '-MO-DA HO:MI+ZONE' );
 		$pot->set_header( 'Last-Translator', 'FULL NAME <EMAIL@ADDRESS>' );
 		$pot->set_header( 'Language-Team', 'LANGUAGE <LL@li.org>' );
 		$pot->set_comment_before_headers( $meta['comments'] );
