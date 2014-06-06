@@ -56,8 +56,9 @@ grunt.initConfig({
                 exclude: [],          // List of files or directories to ignore.
                 i18nToolsPath: '',    // Path to the i18n tools directory.
                 mainFile: '',         // Main project file.
-                potComments: '',      // The copyright at the beginning ofthe POT file.
+                potComments: '',      // The copyright at the beginning of the POT file.
                 potFilename: '',      // Name of the POT file.
+                potHeaders: {},       // Headers to add to the generate POT file.
                 processPot: null,     // A callback function for manipulating the POT file.
                 type: 'wp-plugin',    // Type of project (wp-plugin or wp-theme).
                 updateTimestamp: true // Whether the POT-Creation-Date should be updated without other changes.
@@ -86,7 +87,7 @@ The directory where the POT file should be saved. Defaults to the value from the
 #### options.exclude
 Type: `String`  
 Default value: `[]`  
-Example value: `'['subdir/.*']'`
+Example value: `['subdir/.*']`
 
 List of files or directories to ignore when generating the POT file. Note that the globbing pattern is a basic PHP [regular expression](https://github.com/blazersix/grunt-wp-i18n/blob/develop/vendor/wp-i18n-tools/extract.php#L66).
 
@@ -115,9 +116,15 @@ Example value: `'plugin-or-theme-slug.pot'`
 
 Name of the POT file. Defaults to the "Text Domain" header if it exists, otherwise uses the project directory name.
 
+#### options.potHeaders
+Type: `Object`  
+Example value: `{ 'report-msgid-bugs-to': 'https://github.com/blazersix/grunt-wp-i18n/issues' }`
+
+List of headers to add to the POT file in the form of key-value pairs.
+
 #### options.processPot
 Type: `Function( pot, options )`  
-Default value: `null`  
+Default value: `null`
 
 A callback function for advanced manipulation of the POT file after it's generated.
 
@@ -130,7 +137,7 @@ The type of project.
 
 #### options.updateTimestamp
 Type: `Boolean`  
-Default value: `true`  
+Default value: `true`
 
 Whether the `POT-Creation-Date` header should be updated if no other changes to the POT file are detected.
 
@@ -250,6 +257,13 @@ Options defined in Gruntfile.js are shared between anyone working on a project, 
 
 
 ## Release History
+
+#### 0.4.5
+
+* Introduced the `potHeaders` option for defining headers without using the `processPot` callback.
+* Added an X-Generator header.
+* Added a method to fix case-sensitive Poedit headers.
+* Changed `date()` calls to `gmdate()` in the PHP tools to prevent error messages when date.timezone isn't set in php.ini.
 
 #### 0.4.4
 
