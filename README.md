@@ -58,7 +58,7 @@ grunt.initConfig({
                 mainFile: '',         // Main project file.
                 potComments: '',      // The copyright at the beginning of the POT file.
                 potFilename: '',      // Name of the POT file.
-                potHeaders: {},       // Headers to add to the generate POT file.
+                potHeaders: {},       // Headers to add to the generated POT file.
                 processPot: null,     // A callback function for manipulating the POT file.
                 type: 'wp-plugin',    // Type of project (wp-plugin or wp-theme).
                 updateTimestamp: true // Whether the POT-Creation-Date should be updated without other changes.
