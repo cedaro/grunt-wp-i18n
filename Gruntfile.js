@@ -72,6 +72,12 @@ module.exports = function(grunt) {
 				options: {
 					cwd: 'tmp/plugin-headers',
 					potComments: 'A new comment header.',
+					potHeaders: {
+						'report-msgid-bugs-to': 'https://github.com/blazersix/grunt-wp-i18n/issues',
+						'x-poedit-keywordslist': '',
+						'x-poedit-searchpath-0': '',
+						'x-poedit-sourcecharset': ''
+					},
 					processPot: function( pot, options ) {
 						pot.headers['language-team'] = 'Team Name <team@example.com>';
 						return pot;
