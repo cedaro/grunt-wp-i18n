@@ -8,25 +8,22 @@
 
 'use strict';
 
-module.exports = function(grunt) {
+module.exports = function( grunt ) {
 
-	grunt.loadTasks( 'tasks' );
-	grunt.loadNpmTasks( 'grunt-contrib-clean' );
-	grunt.loadNpmTasks( 'grunt-contrib-copy' );
-	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
-	grunt.loadNpmTasks( 'grunt-contrib-nodeunit' );
-
+	// Project configuration.
 	grunt.config.init({
 
+		// Validate files with JSHint.
 		jshint: {
-			options: {
-				jshintrc: '.jshintrc'
-			},
 			all: [
 				'Gruntfile.js',
 				'tasks/*.js',
-				'tasks/lib/*.js'
-			]
+				'tasks/lib/*.js',
+				'<%= nodeunit.tests %>'
+			],
+			options: {
+				jshintrc: '.jshintrc'
+			}
 		},
 
 		// Before generating any new files, remove any previously-created files.
@@ -34,16 +31,15 @@ module.exports = function(grunt) {
 			tests: ['tmp']
 		},
 
+		// Make a Copy of Project.
 		copy: {
 			tests: {
-				files: [
-					{
-						expand: true,
-						cwd: 'test/fixtures',
-						src: [ '**' ],
-						dest: 'tmp/'
-					}
-				]
+				files: [{
+					expand: true,
+					cwd: 'test/fixtures',
+					src: [ '**' ],
+					dest: 'tmp/'
+				}]
 			}
 		},
 
@@ -116,14 +112,21 @@ module.exports = function(grunt) {
 		nodeunit: {
 			tests: ['test/*_test.js'],
 		}
-
 	});
 
-	// Register default task.
-	grunt.registerTask( 'default', ['jshint', 'test']);
+	// Actually load this plugin's task(s).
+	grunt.loadTasks( 'tasks' );
+	
+	// These plugins provide necessary tasks.
+	grunt.loadNpmTasks( 'grunt-contrib-clean' );
+	grunt.loadNpmTasks( 'grunt-contrib-copy' );
+	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
+	grunt.loadNpmTasks( 'grunt-contrib-nodeunit' );
 
 	// Whenever the "test" task is run, first clean the "tmp" dir,
 	// copy the "fixtures", then run this plugin's task(s), then test the result.
 	grunt.registerTask( 'test', ['clean', 'copy', 'makepot', 'nodeunit']);
 
+	// Register default task.
+	grunt.registerTask( 'default', ['jshint', 'test']);
 };

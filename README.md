@@ -54,6 +54,7 @@ grunt.initConfig({
                 cwd: '',              // Directory of files to internationalize.
                 domainPath: '',       // Where to save the POT file.
                 exclude: [],          // List of files or directories to ignore.
+                include: [],          // List of files or directories to include.
                 i18nToolsPath: '',    // Path to the i18n tools directory.
                 mainFile: '',         // Main project file.
                 potComments: '',      // The copyright at the beginning of the POT file.
@@ -90,6 +91,13 @@ Default value: `[]`
 Example value: `['subdir/.*']`
 
 List of files or directories to ignore when generating the POT file. Note that the globbing pattern is a basic PHP [regular expression](https://github.com/blazersix/grunt-wp-i18n/blob/develop/vendor/wp-i18n-tools/extract.php#L66).
+
+#### options.include
+Type: `String`  
+Default value: `[]`  
+Example value: `'['subdir/.*']'`
+
+List of files or directories to include when generating the POT file. Note that the globbing pattern is a basic PHP [regular expression](https://github.com/blazersix/grunt-wp-i18n/blob/develop/vendor/wp-i18n-tools/extract.php#L66).
 
 #### options.i18nToolsPath
 Type: `String`
