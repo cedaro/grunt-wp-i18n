@@ -258,6 +258,10 @@ Options defined in Gruntfile.js are shared between anyone working on a project, 
 
 ## Release History
 
+#### 0.4.6
+
+* Fix an issue with replacing comment headers when using external i18n tools.
+
 #### 0.4.5
 
 * Introduced the `potHeaders` option for defining headers without using the `processPot` callback.
