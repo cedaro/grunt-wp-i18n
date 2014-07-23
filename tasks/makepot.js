@@ -116,14 +116,16 @@ module.exports = function( grunt ) {
 			args: cmdArgs,
 			opts: { stdio: 'inherit' }
 		}, function( error, result, code ) {
-			var pattern, pot;
+			var matches, pattern, pot;
 
 			if ( 0 === code && grunt.file.exists( o.potFile ) ) {
 				pot = grunt.file.read( o.potFile );
 
 				// Update the comments header.
 				pattern = /# <!=([\s\S]+?)=!>/;
-				o.potComments = o.potComments || pot.match( pattern )[1];
+				if ( '' === o.potComments && ( matches = pot.match( pattern ) ) ) {
+					o.potComments = matches[1];
+				}
 				o.potComments = '# ' + o.potComments.replace( /\n(# )?/g, '\n# ' ).replace( '{year}', new Date().getFullYear() );
 				pot = pot.replace( pattern, o.potComments );
 
