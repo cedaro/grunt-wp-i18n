@@ -29,8 +29,10 @@
   },
   "dependencies": {
     "async": "~0.2.10",
+    "chalk": "~0.5.1",
     "gettext-parser": "~0.2.0",
     "grunt": "~0.4.2",
+    "text-table": "~0.2.0",
     "underscore": "~1.5.2",
     "underscore.string": "~2.3.3"
   },

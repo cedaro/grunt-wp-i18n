@@ -244,6 +244,150 @@ grunt.initConfig({
 
 This task supports the file mapping format Grunt supports. Please read [Globbing patterns](http://gruntjs.com/configuring-tasks#globbing-patterns) and [Building the files object dynamically](http://gruntjs.com/configuring-tasks#building-the-files-object-dynamically) for additional details.
 
+## The "checktextdomain" task
+
+### Important: Before you start
+
+For the task to run you need to specify:
+
+1. **Text domain(s)** - a string or array of valid text domain
+2. **Keywords** - gettext functions, along with a specification indicating where to look for the text domain
+
+
+#### Keyword specifications
+This task extends the original [keyword specification](http://www.gnu.org/software/gettext/manual/html_node/xgettext-Invocation.html) to indicate where to look for the text domain. The default specification is of the form
+
+``` 
+    [function name]:[argument-specifier],[argument-specifier],...
+```
+where an argument specificier is of the form
+
+ - `[number]` - indicating that this argument is a translatable string
+ - `[number]c` - indicating that this argument is a context specifier
+
+
+For example:
+
+ - `gettext` - the translated string is the first argument of `gettext()`
+ - `ngettext:1,2` -  the translated strings are arguments 1 and 2 of of `ngettext()`
+ - `pgettext:1c,2` -  argument 1 is a context specifier and the translated string is argument 2 of `pgettext()`
+
+
+This task requires an additional argument specifier (in fact this is the only required one): `[number]d` - indicating that the argument is a domain specifier. For example:
+
+ - `__:1,2d` - the translated string is the first argument of `__()` and the domain is the second argument
+ - `_n:1,2,4d` -  the translated strings are arguments 1 and 2 of `_n()` and the fourth is the domain specifier.
+ - `_nx:1,2,3c,5d` -  the translated strings are arguments 1 and 2 of `_nx()`, the third is a context specifier and the fifth is the domain specifier.
+
+
+#### Example keyword specifications (WordPress)
+
+```
+keywords: [
+    '__:1,2d',
+    '_e:1,2d',
+    '_x:1,2c,3d',
+    'esc_html__:1,2d',
+    'esc_html_e:1,2d',
+    'esc_html_x:1,2c,3d',
+    'esc_attr__:1,2d', 
+    'esc_attr_e:1,2d', 
+    'esc_attr_x:1,2c,3d', 
+    '_ex:1,2c,3d',
+    '_n:1,2,4d', 
+    '_nx:1,2,4c,5d',
+    '_n_noop:1,2,3d',
+    '_nx_noop:1,2,3c,4d'
+];
+```
+
+### Overview
+In your project's Gruntfile, add a section named `checktextdomain` to the data object passed into `grunt.initConfig()`.
+
+```js
+grunt.initConfig({
+    checktextdomain: {
+        options: {
+            // Task-specific options go here.
+        },
+        files: {
+        // Files to target go here
+        },
+    },
+});
+```
+
+### Options
+
+#### textdomain
+Type: `String`|`Array`
+
+Must be provided. A text domain (or an array of text domains) indicating the domains to check against.
+
+#### keywords
+Type: `Array`
+
+An array of keyword specifications to look for. See above section for details & examples.
+
+#### reportMissing
+Type: `Bool`
+Default value: `true`
+
+Whether to report use of keywords without a domain being passed.
+
+#### reportVariableDomain
+Type: `Bool`
+Default value: `true`
+
+Whether to report use of keywords with a variable being used as the domain.
+
+#### correctDomain
+Type: `Bool`
+Default value: `false`
+
+Whether to automatically correct incorrect domains. Please note that this does **not** add in missing domains, and can **only** be used when one text domain is supplied. This will also correct instances where a variable, rather than string is used as a text doman, **unless** you set `reportVariableDomain` to `false`.
+
+#### createReportFile
+Type: `Bool`
+Default value: `false`
+
+Create a hidden `.[target].json` file with reported errors.
+
+### Usage Examples
+
+This is a typical set-up for WordPress development. The only thing specific to WordPress here is the keywords list.
+
+```js
+grunt.initConfig({
+    checktextdomain: {
+        standard{
+            options:{
+                textdomain: 'my-domain', //Specify allowed domain(s)
+                keywords: [ //List keyword specifications
+                    '__:1,2d',
+                    '_e:1,2d',
+                    '_x:1,2c,3d',
+                    'esc_html__:1,2d',
+                    'esc_html_e:1,2d',
+                    'esc_html_x:1,2c,3d',
+                    'esc_attr__:1,2d', 
+                    'esc_attr_e:1,2d', 
+                    'esc_attr_x:1,2c,3d', 
+                    '_ex:1,2c,3d',
+                    '_n:1,2,4d', 
+                    '_nx:1,2,4c,5d',
+                    '_n_noop:1,2,3d',
+                    '_nx_noop:1,2,3c,4d'
+                ]
+            },
+            files: [{
+                src: ['**/*.php'], //all php 
+                expand: true,
+            }],
+        }
+    }
+});
+```
 
 ## Local Config
 
