@@ -22,9 +22,10 @@ class GruntMakePOT extends MakePOT {
 	 * @param string $output POT file name.
 	 * @param string $slug Optional. Plugin slug.
 	 * @param string $excludes Optional. Comma-separated list of exclusion patterns.
+	 * @param string $includes Optional. Comma-separated list of inclusion patterns.
 	 * @return bool
 	 */
-	public function wp_plugin( $dir, $output, $slug = null, $excludes = '' ) {
+	public function wp_plugin( $dir, $output, $slug = null, $excludes = '', $includes = '' ) {
 		if ( is_null( $slug ) ) {
 			// Guess plugin slug.
 			$slug = $this->guess_plugin_slug( $dir );
@@ -32,7 +33,8 @@ class GruntMakePOT extends MakePOT {
 
 		$main_file = $dir . '/' . $slug . '.php';
 		$source = $this->get_first_lines( $main_file, $this->max_header_lines );
-		$excludes = $this->normalize_excludes( $excludes );
+		$excludes = $this->normalize_patterns( $excludes );
+		$includes = $this->normalize_patterns( $includes );
 		$output = is_null( $output )? "$slug.pot" : $output;
 
 		$placeholders = array();
@@ -48,7 +50,7 @@ class GruntMakePOT extends MakePOT {
 			$this->meta['wp-plugin']['comments'] = "<!=Copyright (C) {year} {author}\nThis file is distributed under the same license as the {package-name} package.=!>";
 		}
 
-		$result = $this->xgettext( 'wp-plugin', $dir, $output, $placeholders, $excludes );
+		$result = $this->xgettext( 'wp-plugin', $dir, $output, $placeholders, $excludes, $includes );
 		if ( ! $result ) {
 			return false;
 		}
@@ -65,9 +67,10 @@ class GruntMakePOT extends MakePOT {
 	 * @param string $output POT file name.
 	 * @param string $slug Optional. Theme slug.
 	 * @param string $excludes Optional. Comma-separated list of exclusion patterns.
+	 * @param string $includes Optional. Comma-separated list of inclusion patterns.
 	 * @return bool
 	 */
-	public function wp_theme( $dir, $output, $slug = null, $excludes = '' ) {
+	public function wp_theme( $dir, $output, $slug = null, $excludes = '', $includes = '' ) {
 		if ( is_null( $slug ) ) {
 			// Guess theme slug.
 			$slug = $this->guess_plugin_slug( $dir );
@@ -75,7 +78,8 @@ class GruntMakePOT extends MakePOT {
 
 		$main_file = $dir . '/style.css';
 		$source = $this->get_first_lines( $main_file, $this->max_header_lines );
-		$excludes = $this->normalize_excludes( $excludes );
+		$excludes = $this->normalize_patterns( $excludes );
+		$includes = $this->normalize_patterns( $includes );
 		$output = is_null( $output )? "$slug.pot" : $output;
 
 		$placeholders = array();
@@ -134,18 +138,18 @@ class GruntMakePOT extends MakePOT {
 	}
 
 	/**
-	 * Convert a string or array of exclusion patterns into an array.
+	 * Convert a string or array of exclusion/inclusion patterns into an array.
 	 *
-	 * @param string|array $excludes Comma-separated string or array of exclusion patterns.
+	 * @param string|array $patterns Comma-separated string or array of exclusion/inclusion patterns.
 	 * @return array
 	 */
-	protected function normalize_excludes( $excludes ) {
-		if ( is_string( $excludes ) ) {
-			$excludes = explode( ',', $excludes );
+	protected function normalize_patterns( $patterns ) {
+		if ( is_string( $patterns ) ) {
+			$patterns = explode( ',', $patterns );
 		}
 
 		// Remove empty items and non-strings.
-		return array_filter( array_filter( (array) $excludes ), 'is_string' );
+		return array_filter( array_filter( (array) $patterns ), 'is_string' );
 	}
 }
 
@@ -159,20 +163,21 @@ if ( __FILE__ == $included_files[0] ) {
 	$makepot = new GruntMakePOT;
 	$method = str_replace( '-', '_', $argv[1] );
 
-	if ( in_array( count( $argv ), range( 3, 6 ) ) && in_array( $method, get_class_methods( $makepot ) ) ) {
+	if ( in_array( count( $argv ), range( 3, 7 ) ) && in_array( $method, get_class_methods( $makepot ) ) ) {
 		$res = call_user_func(
 			array( $makepot, $method ),         // Method
 			realpath( $argv[2] ),               // Directory
 			isset( $argv[3] )? $argv[3] : null, // Output
 			isset( $argv[4] )? $argv[4] : null, // Slug
-			isset( $argv[5] )? $argv[5] : null  // Excludes
+			isset( $argv[5] )? $argv[5] : null, // Excludes
+			isset( $argv[6] )? $argv[6] : null  // Includes
 		);
 
 		if ( false === $res ) {
 			fwrite( STDERR, "Couldn't generate POT file!\n" );
 		}
 	} else {
-		$usage  = "Usage: php grunt-makepot.php PROJECT DIRECTORY [OUTPUT] [SLUG] [EXCLUDE]\n\n";
+		$usage  = "Usage: php grunt-makepot.php PROJECT DIRECTORY [OUTPUT] [SLUG] [EXCLUDE] [INCLUDE]\n\n";
 		$usage .= "Generate POT file from the files in DIRECTORY [OUTPUT]\n";
 		$usage .= "Available projects: " . implode( ', ', $makepot->projects ) . "\n";
 		fwrite( STDERR, $usage);

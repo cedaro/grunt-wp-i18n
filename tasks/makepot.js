@@ -39,6 +39,7 @@ module.exports = function( grunt ) {
 			cwd: process.cwd(),
 			domainPath: '',
 			exclude: [],
+			include: [],
 			i18nToolsPath: defaultI18nToolsPath,
 			mainFile: '',
 			potComments: '',
@@ -104,6 +105,7 @@ module.exports = function( grunt ) {
 			cmdArgs[0] = o.makepotScript;
 			cmdArgs.push( o.mainFile.split( '.' ).shift() );
 			cmdArgs.push( o.exclude.join( ',' ) );
+			cmdArgs.push( o.include.join( ',' ) );
 		}
 
 		// Parse the existing POT file to compare for changes.
