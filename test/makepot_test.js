@@ -25,7 +25,6 @@ Test assertions:
 
 exports.makepot = {
 	setUp: function( done ) {
-		// setup here if necessary
 		done();
 	},
 

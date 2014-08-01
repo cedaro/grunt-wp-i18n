@@ -40,10 +40,25 @@ module.exports = function(grunt) {
 					{
 						expand: true,
 						cwd: 'test/fixtures',
-						src: [ '**' ],
+						src: ['**'],
 						dest: 'tmp/'
 					}
 				]
+			}
+		},
+
+		addtextdomain: {
+			options: {
+				textdomain: 'newtextdomain'
+			},
+			add_domain: {
+				src: ['tmp/text-domains/add-domain.php']
+			},
+			update_domains: {
+				options: {
+					updateDomains: ['oldtextdomain', 'vendortextdomain']
+				},
+				src: ['tmp/text-domains/update-domains.php']
 			}
 		},
 
@@ -124,6 +139,6 @@ module.exports = function(grunt) {
 
 	// Whenever the "test" task is run, first clean the "tmp" dir,
 	// copy the "fixtures", then run this plugin's task(s), then test the result.
-	grunt.registerTask( 'test', ['clean', 'copy', 'makepot', 'nodeunit']);
+	grunt.registerTask( 'test', ['clean', 'copy', 'makepot', 'addtextdomain', 'nodeunit']);
 
 };
