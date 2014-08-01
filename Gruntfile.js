@@ -124,6 +124,13 @@ module.exports = function(grunt) {
 					exclude: ['exclude/.*'],
 					type: 'wp-theme'
 				}
+			},
+			plugin_include: {
+				options: {
+					cwd: 'tmp/plugin-include',
+					include: ['include/.*'],
+					type: 'wp-plugin'
+				}
 			}
 		},
 

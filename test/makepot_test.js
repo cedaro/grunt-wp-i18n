@@ -105,6 +105,19 @@ exports.makepot = {
 
 		test.done();
 	},
+
+	plugin_include: function( test ) {
+		test.expect( 3 );
+		var pluginName = 'Example Plugin';
+		var potFile = 'tmp/plugin-include/plugin-include.pot';
+		var pot = gettext.po.parse( grunt.file.read( potFile ) );
+
+		test.equal( 'Exclude' in pot.translations[''], false, "the 'Exclude' string should not be included in the pot file" );
+		test.ok( 'Include' in pot.translations[''], "the 'Include' string should be included in the pot file" );
+		test.equal( pluginName, pot.translations[''][ pluginName ]['msgid'], 'the plugin name should be included as a string in the pot file' );
+
+		test.done();
+	},
 };
 
 exports.makepotTimestamp = {
