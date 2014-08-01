@@ -95,7 +95,7 @@ class GruntMakePOT extends MakePOT {
 			$this->meta['wp-theme']['comments'] = "<!=Copyright (C) {year} {author}\nThis file is distributed under the same license as the {package-name} package.=!>";
 		}
 
-		$result = $this->xgettext( 'wp-theme', $dir, $output, $placeholders, $excludes );
+		$result = $this->xgettext( 'wp-theme', $dir, $output, $placeholders, $excludes, $includes );
 		if ( ! $result ) {
 			return false;
 		}
