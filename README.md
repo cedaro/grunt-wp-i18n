@@ -95,7 +95,7 @@ List of files or directories to ignore when generating the POT file. Note that t
 #### options.include
 Type: `String`
 Default value: `[]`
-Example value: `['subdir/.*]`
+Example value: `['subdir/.*']`
 
 List of files or directories to include when generating the POT file. Note that the globbing pattern is a basic PHP [regular expression](https://github.com/blazersix/grunt-wp-i18n/blob/develop/vendor/wp-i18n-tools/extract.php#L66)
 
@@ -211,6 +211,7 @@ grunt.initConfig({
         options: {
             i18nToolsPath: '', // Path to the i18n tools directory.
             textdomain: '',    // Project text domain.
+            updateDomains: []  // List of text domains to replace.
         },
         target: {
             files: {}
@@ -232,6 +233,13 @@ Default value: `''`
 Example value: `'plugin-or-theme-slug'`
 
 Defaults to the "Text Domain" header if it exists, otherwise uses the project directory name.
+
+#### options.updateDomains
+Type: `Array`  
+Default value: `[]`  
+Example value: `[ 'original-domain', 'vendor-domain' ]`
+
+A list of text domains to replace with the new text domain.
 
 
 ### Usage Examples
