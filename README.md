@@ -274,9 +274,14 @@ Options defined in Gruntfile.js are shared between anyone working on a project, 
 
 ## Release History
 
+#### 0.4.7
+
+* Added an `includes` option for the `makepot` task to specify which files should be scanned. Props [@claudiosmweb](https://github.com/claudiosmweb).
+* Added an `updateDomains` option for the `addtextdomain` task to allow a list of specified text domains to be replaced with a new text domain.
+
 #### 0.4.6
 
-* Fix an issue with replacing comment headers when using external i18n tools.
+* Fixed an issue with replacing comment headers when using external i18n tools.
 
 #### 0.4.5
 
