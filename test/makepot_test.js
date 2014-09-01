@@ -66,6 +66,7 @@ exports.makepot = {
 		var potHeaders = pot.translations['']['']['msgstr'][0];
 		test.notEqual( potHeaders.indexOf( 'X-Poedit-KeywordsList' ), -1, 'the X-Poedit-KeywordsList is case-sensitive.' );
 		test.notEqual( potHeaders.indexOf( 'X-Poedit-SearchPath-0' ), -1, 'the X-Poedit-SearchPath-0 is case-sensitive.' );
+		test.notEqual( potHeaders.indexOf( 'X-Poedit-SearchPathExcluded-0' ), -1, 'the X-Poedit-SearchPathExcluded-0 is case-sensitive.' );
 		test.notEqual( potHeaders.indexOf( 'X-Poedit-SourceCharset' ), -1, 'the X-Poedit-SourceCharset is case-sensitive.' );
 
 		test.done();
