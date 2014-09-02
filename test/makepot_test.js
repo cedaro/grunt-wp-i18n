@@ -49,7 +49,7 @@ exports.makepot = {
 	},
 
 	plugin_headers: function( test ) {
-		test.expect( 7 );
+		test.expect( 8 );
 		var potFile = 'tmp/plugin-headers/languages/example-plugin.pot';
 		test.ok( grunt.file.exists( potFile ), 'should compile a pot file based on the text domain header in the /languages subdirectory' );
 
