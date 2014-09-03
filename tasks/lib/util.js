@@ -111,7 +111,7 @@ exports.init = function( grunt ) {
 
 		// Add the the Poedit keywordslist header.
 		if ( 'x-poedit-keywordslist' in headers && true === headers['x-poedit-keywordslist'] ) {
-			pot.headers['x-poedit-keywordslist'] = '__;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c;_nc:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;';
+			pot.headers['x-poedit-keywordslist'] = '__;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;esc_html_x:1,2c;';
 			delete headers['x-poedit-keywordslist'];
 		}
 
