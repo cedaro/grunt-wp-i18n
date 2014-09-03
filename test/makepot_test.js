@@ -35,8 +35,8 @@ exports.makepot = {
 		test.ok( grunt.file.exists( potFile ), 'should compile a pot file in the main plugin directory' );
 
 		var pot = gettext.po.parse( grunt.file.read( potFile ) );
-		test.equal( pluginName, pot.headers['project-id-version'], 'the plugin name should be the project id in the pot file' );
-		test.equal( pluginName, pot.translations[''][ pluginName ]['msgid'], 'the plugin name should be included as a string in the pot file' );
+		test.equal( pot.headers['project-id-version'], pluginName, 'the plugin name should be the project id in the pot file' );
+		test.equal( pot.translations[''][ pluginName ]['msgid'], pluginName, 'the plugin name should be included as a string in the pot file' );
 
 		test.done();
 	},
@@ -58,10 +58,10 @@ exports.makepot = {
 
 		var teamHeader = 'Team Name <team@example.com>';
 		pot = gettext.po.parse( pot );
-		test.equal( teamHeader, pot.headers['language-team'], 'the language team header should match the value set in the processPot callback' );
+		test.equal( pot.headers['language-team'], teamHeader, 'the language team header should match the value set in the processPot callback' );
 
 		var bugReportHeader = 'https://github.com/blazersix/grunt-wp-i18n/issues';
-		test.equal( bugReportHeader, pot.headers['report-msgid-bugs-to'], 'the report-msgid-bugs-to header should match the value set in the potHeaders option' );
+		test.equal( pot.headers['report-msgid-bugs-to'], bugReportHeader, 'the report-msgid-bugs-to header should match the value set in the potHeaders option' );
 
 		var potHeaders = pot.translations['']['']['msgstr'][0];
 		test.notEqual( potHeaders.indexOf( 'X-Poedit-KeywordsList' ), -1, 'the X-Poedit-KeywordsList header is case-sensitive' );
@@ -79,7 +79,7 @@ exports.makepot = {
 
 		var pot = gettext.po.parse( grunt.file.read( potFile ) );
 		var teamHeader = 'Team Name <team@example.com>';
-		test.equal( teamHeader, pot.headers['language-team'], 'the language team header should match the value set in the processPot callback' );
+		test.equal( pot.headers['language-team'], teamHeader, 'the language team header should match the value set in the processPot callback' );
 		test.done();
 	},
 
@@ -99,10 +99,10 @@ exports.makepot = {
 		test.ok( grunt.file.exists( potFile ), 'should compile a pot file in the main theme directory' );
 
 		var pot = gettext.po.parse( grunt.file.read( potFile ) );
-		test.equal( themeName, pot.headers['project-id-version'], 'the theme name should be the project id in the pot file' );
-		test.equal( themeName, pot.translations[''][ themeName ]['msgid'], 'the theme name should be included as a string in the pot file' );
-		test.equal( templateName, pot.translations[''][ templateName ]['msgid'], 'the full width page template name should be included as a string in the pot file' );
-		test.equal( false, 'Exclude' in pot.translations[''] );
+		test.equal( pot.headers['project-id-version'], themeName, 'the theme name should be the project id in the pot file' );
+		test.equal( pot.translations[''][ themeName ]['msgid'], themeName, 'the theme name should be included as a string in the pot file' );
+		test.equal( pot.translations[''][ templateName ]['msgid'], templateName, 'the full width page template name should be included as a string in the pot file' );
+		test.equal( 'Exclude' in pot.translations[''], false );
 
 		test.done();
 	},
@@ -115,7 +115,7 @@ exports.makepot = {
 
 		test.equal( 'Exclude' in pot.translations[''], false, "the 'Exclude' string should not be included in the pot file" );
 		test.ok( 'Include' in pot.translations[''], "the 'Include' string should be included in the pot file" );
-		test.equal( pluginName, pot.translations[''][ pluginName ]['msgid'], 'the plugin name should be included as a string in the pot file' );
+		test.equal( pot.translations[''][ pluginName ]['msgid'], pluginName, 'the plugin name should be included as a string in the pot file' );
 
 		test.done();
 	},
@@ -125,14 +125,14 @@ exports.makepot = {
 		var potFile = 'tmp/common-pot-headers/common-pot-headers.pot';
 		var pot = gettext.po.parse( grunt.file.read( potFile ) );
 
-		test.equal( 'en', pot.headers['language'], "the Language header value should be 'en' when potHeaders.poedit is true" );
-		test.equal( 'nplurals=2; plural=(n != 1);', pot.headers['plural-forms'], "the Plural-Forms header value should be 'nplurals=2; plural=(n != 1);' when potHeaders.poedit is true" );
-		test.equal( 'United States', pot.headers['x-poedit-country'], "the X-Poedit-Country header value should be 'United States' when potHeaders.poedit is true" );
-		test.equal( 'UTF-8', pot.headers['x-poedit-sourcecharset'], "the X-Poedit-SourceCharset header value should be 'UTF-8' when potHeaders.poedit is true" );
-		test.equal( '../', pot.headers['x-poedit-basepath'], "the X-Poedit-Basepath header value should be '../' when potHeaders.poedit is true" );
-		test.equal( '.', pot.headers['x-poedit-searchpath-0'], "the X-Poedit-SearchPath-0 header value should be '.' when potHeaders.poedit is true" );
-		test.equal( '', pot.headers['x-poedit-bookmarks'], "the X-Poedit-Bookmarks header value should be '' when potHeaders.poedit is true" );
-		test.equal( 'yes', pot.headers['x-textdomain-support'], "the X-Textdomain-Support header value should be 'yes' when potHeaders.poedit is true" );
+		test.equal( pot.headers['language'], 'en', "the Language header value should be 'en' when potHeaders.poedit is true" );
+		test.equal( pot.headers['plural-forms'], 'nplurals=2; plural=(n != 1);', "the Plural-Forms header value should be 'nplurals=2; plural=(n != 1);' when potHeaders.poedit is true" );
+		test.equal( pot.headers['x-poedit-country'], 'United States', "the X-Poedit-Country header value should be 'United States' when potHeaders.poedit is true" );
+		test.equal( pot.headers['x-poedit-sourcecharset'], 'UTF-8', "the X-Poedit-SourceCharset header value should be 'UTF-8' when potHeaders.poedit is true" );
+		test.equal( pot.headers['x-poedit-basepath'], '../', "the X-Poedit-Basepath header value should be '../' when potHeaders.poedit is true" );
+		test.equal( pot.headers['x-poedit-searchpath-0'], '.', "the X-Poedit-SearchPath-0 header value should be '.' when potHeaders.poedit is true" );
+		test.equal( pot.headers['x-poedit-bookmarks'], '', "the X-Poedit-Bookmarks header value should be '' when potHeaders.poedit is true" );
+		test.equal( pot.headers['x-textdomain-support'], 'yes', "the X-Textdomain-Support header value should be 'yes' when potHeaders.poedit is true" );
 		test.ok( 'x-poedit-keywordslist' in pot.headers, "the X-Poedit-KeywordsList header should be included when potHeaders.poedit is true" );
 
 		test.done();
