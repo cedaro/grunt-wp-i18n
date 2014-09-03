@@ -51,18 +51,21 @@ grunt.initConfig({
     makepot: {
         target: {
             options: {
-                cwd: '',              // Directory of files to internationalize.
-                domainPath: '',       // Where to save the POT file.
-                exclude: [],          // List of files or directories to ignore.
-                include: [],          // List of files or directories to include.
-                i18nToolsPath: '',    // Path to the i18n tools directory.
-                mainFile: '',         // Main project file.
-                potComments: '',      // The copyright at the beginning of the POT file.
-                potFilename: '',      // Name of the POT file.
-                potHeaders: {},       // Headers to add to the generated POT file.
-                processPot: null,     // A callback function for manipulating the POT file.
-                type: 'wp-plugin',    // Type of project (wp-plugin or wp-theme).
-                updateTimestamp: true // Whether the POT-Creation-Date should be updated without other changes.
+                cwd: '',                          // Directory of files to internationalize.
+                domainPath: '',                   // Where to save the POT file.
+                exclude: [],                      // List of files or directories to ignore.
+                include: [],                      // List of files or directories to include.
+                i18nToolsPath: '',                // Path to the i18n tools directory.
+                mainFile: '',                     // Main project file.
+                potComments: '',                  // The copyright at the beginning of the POT file.
+                potFilename: '',                  // Name of the POT file.
+                potHeaders: {
+                    poedit: true,                 // Includes common Poedit headers.
+                    'x-poedit-keywordslist': true // Include a list of all possible gettext functions.
+                },                                // Headers to add to the generated POT file.
+                processPot: null,                 // A callback function for manipulating the POT file.
+                type: 'wp-plugin',                // Type of project (wp-plugin or wp-theme).
+                updateTimestamp: true             // Whether the POT-Creation-Date should be updated without other changes.
             }
         }
     }
@@ -129,6 +132,24 @@ Type: `Object`
 Example value: `{ 'report-msgid-bugs-to': 'https://github.com/blazersix/grunt-wp-i18n/issues' }`
 
 List of headers to add to the POT file in the form of key-value pairs.
+
+Adding a `poedit` property with a value of `true` will add the following commonly-used Poedit headers to ease setup for translators:
+
+```js
+{
+    'language': 'en',
+    'plural-forms': 'nplurals=2; plural=(n != 1);',
+    'x-poedit-country': 'United States',
+    'x-poedit-sourcecharset': 'UTF-8',
+    'x-poedit-keywordslist': '__;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c;_nc:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;',
+    'x-poedit-basepath': '../',
+    'x-poedit-searchpath-0': '.',
+    'x-poedit-bookmarks': '',
+    'x-textdomain-support': 'yes'
+}
+```
+
+If custom values are used for the various Poedit headers, but you want to include WordPress gettext function calls, set the value of `x-poedit-keywordslist` to `true` and they will be included automatically.
 
 #### options.processPot
 Type: `Function( pot, options )`  
