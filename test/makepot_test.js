@@ -119,6 +119,24 @@ exports.makepot = {
 
 		test.done();
 	},
+
+	common_pot_headers: function( test ) {
+		test.expect( 9 );
+		var potFile = 'tmp/common-pot-headers/common-pot-headers.pot';
+		var pot = gettext.po.parse( grunt.file.read( potFile ) );
+
+		test.equal( 'en', pot.headers['language'], "the Language header value should be 'en' when potHeaders.poedit is true" );
+		test.equal( 'nplurals=2; plural=(n != 1);', pot.headers['plural-forms'], "the Plural-Forms header value should be 'nplurals=2; plural=(n != 1);' when potHeaders.poedit is true" );
+		test.equal( 'United States', pot.headers['x-poedit-country'], "the X-Poedit-Country header value should be 'United States' when potHeaders.poedit is true" );
+		test.equal( 'UTF-8', pot.headers['x-poedit-sourcecharset'], "the X-Poedit-SourceCharset header value should be 'UTF-8' when potHeaders.poedit is true" );
+		test.equal( '../', pot.headers['x-poedit-basepath'], "the X-Poedit-Basepath header value should be '../' when potHeaders.poedit is true" );
+		test.equal( '.', pot.headers['x-poedit-searchpath-0'], "the X-Poedit-SearchPath-0 header value should be '.' when potHeaders.poedit is true" );
+		test.equal( '', pot.headers['x-poedit-bookmarks'], "the X-Poedit-Bookmarks header value should be '' when potHeaders.poedit is true" );
+		test.equal( 'yes', pot.headers['x-textdomain-support'], "the X-Textdomain-Support header value should be 'yes' when potHeaders.poedit is true" );
+		test.ok( 'x-poedit-keywordslist' in pot.headers, "the X-Poedit-KeywordsList header should be included when potHeaders.poedit is true" );
+
+		test.done();
+	},
 };
 
 exports.makepotTimestamp = {

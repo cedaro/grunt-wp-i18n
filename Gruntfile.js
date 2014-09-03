@@ -132,6 +132,15 @@ module.exports = function(grunt) {
 					include: ['include/.*'],
 					type: 'wp-plugin'
 				}
+			},
+			common_pot_headers: {
+				options: {
+					cwd: 'tmp/common-pot-headers',
+					potHeaders: {
+						poedit: true
+					},
+					type: 'wp-plugin'
+				}
 			}
 		},
 
