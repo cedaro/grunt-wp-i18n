@@ -91,6 +91,7 @@ module.exports = function(grunt) {
 						'report-msgid-bugs-to': 'https://github.com/blazersix/grunt-wp-i18n/issues',
 						'x-poedit-keywordslist': '',
 						'x-poedit-searchpath-0': '',
+						'x-poedit-searchpathexcluded-0': '',
 						'x-poedit-sourcecharset': ''
 					},
 					processPot: function( pot, options ) {

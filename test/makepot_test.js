@@ -49,7 +49,7 @@ exports.makepot = {
 	},
 
 	plugin_headers: function( test ) {
-		test.expect( 7 );
+		test.expect( 8 );
 		var potFile = 'tmp/plugin-headers/languages/example-plugin.pot';
 		test.ok( grunt.file.exists( potFile ), 'should compile a pot file based on the text domain header in the /languages subdirectory' );
 
@@ -66,6 +66,7 @@ exports.makepot = {
 		var potHeaders = pot.translations['']['']['msgstr'][0];
 		test.notEqual( potHeaders.indexOf( 'X-Poedit-KeywordsList' ), -1, 'the X-Poedit-KeywordsList is case-sensitive.' );
 		test.notEqual( potHeaders.indexOf( 'X-Poedit-SearchPath-0' ), -1, 'the X-Poedit-SearchPath-0 is case-sensitive.' );
+		test.notEqual( potHeaders.indexOf( 'X-Poedit-SearchPathExcluded-0' ), -1, 'the X-Poedit-SearchPathExcluded-0 is case-sensitive.' );
 		test.notEqual( potHeaders.indexOf( 'X-Poedit-SourceCharset' ), -1, 'the X-Poedit-SourceCharset is case-sensitive.' );
 
 		test.done();
