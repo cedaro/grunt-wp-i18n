@@ -138,6 +138,19 @@ module.exports = function(grunt) {
 					cwd: 'tmp/common-pot-headers',
 					potHeaders: {
 						poedit: true
+
+					},
+					type: 'wp-plugin'
+				}
+			},
+			customize_common_pot_headers: {
+				options: {
+					cwd: 'tmp/common-pot-headers',
+					potFilename: 'custom-pot-headers.pot',
+					potHeaders: {
+						poedit: true,
+						language: 'es',
+						'x-poedit-keywordslist': ''
 					},
 					type: 'wp-plugin'
 				}
