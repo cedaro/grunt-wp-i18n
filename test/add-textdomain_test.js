@@ -31,8 +31,8 @@ exports.addtextdomain = {
 		test.expect( 1 );
 
 		var fileContents = grunt.file.read( 'tmp/text-domains/add-domain.php' ).trim();
-
-		test.equal( fileContents.trim(), "<?php\n__( 'String', 'newtextdomain' );", 'a text domain should have been added' );
+		var expected = "<?php" + require( 'os' ).EOL + "__( 'String', 'newtextdomain' );";
+		test.equal( fileContents.trim(), expected, 'a text domain should have been added' );
 
 		test.done();
 	},
