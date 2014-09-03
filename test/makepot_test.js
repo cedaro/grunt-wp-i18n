@@ -58,16 +58,16 @@ exports.makepot = {
 
 		var teamHeader = 'Team Name <team@example.com>';
 		pot = gettext.po.parse( pot );
-		test.equal( teamHeader, pot.headers['language-team'], 'the language team header should match the value set in the processPot callback.' );
+		test.equal( teamHeader, pot.headers['language-team'], 'the language team header should match the value set in the processPot callback' );
 
 		var bugReportHeader = 'https://github.com/blazersix/grunt-wp-i18n/issues';
-		test.equal( bugReportHeader, pot.headers['report-msgid-bugs-to'], 'the report-msgid-bugs-to header should match the value set in the potHeaders option.' );
+		test.equal( bugReportHeader, pot.headers['report-msgid-bugs-to'], 'the report-msgid-bugs-to header should match the value set in the potHeaders option' );
 
 		var potHeaders = pot.translations['']['']['msgstr'][0];
-		test.notEqual( potHeaders.indexOf( 'X-Poedit-KeywordsList' ), -1, 'the X-Poedit-KeywordsList is case-sensitive.' );
-		test.notEqual( potHeaders.indexOf( 'X-Poedit-SearchPath-0' ), -1, 'the X-Poedit-SearchPath-0 is case-sensitive.' );
-		test.notEqual( potHeaders.indexOf( 'X-Poedit-SearchPathExcluded-0' ), -1, 'the X-Poedit-SearchPathExcluded-0 is case-sensitive.' );
-		test.notEqual( potHeaders.indexOf( 'X-Poedit-SourceCharset' ), -1, 'the X-Poedit-SourceCharset is case-sensitive.' );
+		test.notEqual( potHeaders.indexOf( 'X-Poedit-KeywordsList' ), -1, 'the X-Poedit-KeywordsList header is case-sensitive' );
+		test.notEqual( potHeaders.indexOf( 'X-Poedit-SearchPath-0' ), -1, 'the X-Poedit-SearchPath-0 header is case-sensitive' );
+		test.notEqual( potHeaders.indexOf( 'X-Poedit-SearchPathExcluded-0' ), -1, 'the X-Poedit-SearchPathExcluded-0 header is case-sensitive' );
+		test.notEqual( potHeaders.indexOf( 'X-Poedit-SourceCharset' ), -1, 'the X-Poedit-SourceCharset header is case-sensitive' );
 
 		test.done();
 	},
@@ -79,7 +79,7 @@ exports.makepot = {
 
 		var pot = gettext.po.parse( grunt.file.read( potFile ) );
 		var teamHeader = 'Team Name <team@example.com>';
-		test.equal( teamHeader, pot.headers['language-team'], 'the language team header should match the value set in the processPot callback.' );
+		test.equal( teamHeader, pot.headers['language-team'], 'the language team header should match the value set in the processPot callback' );
 		test.done();
 	},
 
