@@ -53,6 +53,10 @@ module.exports = function( grunt ) {
 			''
 		];
 
+		if ( grunt.option( 'dry-run' ) ) {
+			cmdArgs[1] = '';
+		}
+
 		if ( defaultI18nToolsPath === o.i18nToolsPath ) {
 			// Use the custom CLI script that extends add-textdomain.php.
 			o.addTextdomainScript = path.join( o.i18nToolsPath, 'grunt-add-textdomain.php' );
