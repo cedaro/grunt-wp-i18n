@@ -139,11 +139,12 @@ exports.makepot = {
 	},
 
 	customize_common_pot_headers: function( test ) {
-		test.expect( 2 );
+		test.expect( 3 );
 		var potFile = 'tmp/common-pot-headers/custom-pot-headers.pot';
 		var pot = gettext.po.parse( grunt.file.read( potFile ) );
 
 		test.equal( pot.headers['language'], 'es', "the Language header value should be 'es'" );
+		test.equal( pot.headers['x-poedit-country'], 'Spain', "the X-Poedit-Country header value should be 'Spain'" );
 		test.equal( pot.headers['x-poedit-keywordslist'], '', "the X-Poedit-KeywordsList header value should be empty" );
 
 		test.done();

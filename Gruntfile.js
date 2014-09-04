@@ -148,6 +148,7 @@ module.exports = function(grunt) {
 					cwd: 'tmp/common-pot-headers',
 					potFilename: 'custom-pot-headers.pot',
 					potHeaders: {
+						'x-poedit-country': 'Spain',
 						poedit: true,
 						language: 'es',
 						'x-poedit-keywordslist': ''
