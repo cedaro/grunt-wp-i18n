@@ -1,4 +1,4 @@
-# Changelog
+# Changelog for grunt-wp-i18n
 
 ## 0.4.8
 
