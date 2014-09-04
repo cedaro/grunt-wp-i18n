@@ -2,9 +2,9 @@
 
 Add the text domain to gettext functions in your plugin or theme.
 
-**Warning:** This task will overwrite files in your project. Be sure to have a backup or commit any changes before running it. Viewing a diff after the task has run is a good way to verify any changes.
+**Warning:** This task will overwrite files in your project. Be sure to have a backup or commit any changes before running it. Viewing a diff after the task has run is a good way to verify any changes. To preview changes without updating files, use the `--dry-run` switch when running the task.
 
-_Run this task with the `grunt addtextdomain` command._
+_Run this task with the `grunt addtextdomain` command (or `grunt addtextdomain --dry-run` to preview)._
 
 
 ## Overview
