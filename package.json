@@ -1,7 +1,7 @@
 {
   "name": "grunt-wp-i18n",
   "description": "Internationalize WordPress themes and plugins.",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "homepage": "https://github.com/blazersix/grunt-wp-i18n",
   "author": {
     "name": "Brady Vercher",
