@@ -1,5 +1,9 @@
 # Changelog for grunt-wp-i18n
 
+## 0.4.9
+
+* Fixed a bug causing the `addtextdomain` task to finish early.
+
 ## 0.4.8
 
 * Introduced the `potHeaders.poedit` and `potHeaders['x-poedit-keywordslist']` options to include common Poedit headers. Props [@defries](https://github.com/defries) & [@GaryJones](https://github.com/GaryJones).
