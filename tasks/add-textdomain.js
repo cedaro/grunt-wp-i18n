@@ -23,6 +23,7 @@ module.exports = function( grunt ) {
 	grunt.registerMultiTask( 'addtextdomain', function() {
 		var done = this.async(),
 			defaultI18nToolsPath = path.resolve( __dirname, '../vendor/wp-i18n-tools/' ),
+			files = [],
 			cmdArgs, o;
 
 		o = this.options({
@@ -67,7 +68,7 @@ module.exports = function( grunt ) {
 		}
 
 		this.files.forEach(function( f ) {
-			var files = f.src.filter(function( filepath ) {
+			var filtered = f.src.filter(function( filepath ) {
 				// Warn on and remove invalid source files (if nonull was set).
 				if ( ! grunt.file.exists( filepath ) ) {
 					grunt.log.warn( 'Source file "' + filepath + '" not found.' );
@@ -77,19 +78,21 @@ module.exports = function( grunt ) {
 				}
 			});
 
-			async.eachSeries( files, function( file, nextFile ) {
-				cmdArgs[3] = path.resolve( process.cwd(), file );
+			files = files.concat( filtered );
+		});
 
-				grunt.util.spawn({
-					cmd: 'php',
-					args: cmdArgs,
-					opts: { stdio: 'inherit' }
-				}, function() {
-					nextFile();
-				});
-			}, function( error, result ) {
-				done( error, result );
+		async.eachSeries( files, function( file, nextFile ) {
+			cmdArgs[3] = path.resolve( process.cwd(), file );
+
+			grunt.util.spawn({
+				cmd: 'php',
+				args: cmdArgs,
+				opts: { stdio: 'inherit' }
+			}, function() {
+				nextFile();
 			});
+		}, function( error, result ) {
+			done( error, result );
 		});
 	});
 
