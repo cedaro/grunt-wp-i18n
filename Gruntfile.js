@@ -62,6 +62,15 @@ module.exports = function(grunt) {
 			}
 		},
 
+		makepo: {
+			files: {
+				expand: true,
+				cwd: 'tmp/basic-plugin/',
+				src: 'basic-plugin.pot',
+				dest: 'tmp/basic-plugin'
+			}
+		},
+
 		// Configuration to be run (and then tested).
 		makepot: {
 			basic_plugin: {
