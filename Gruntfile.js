@@ -63,11 +63,28 @@ module.exports = function(grunt) {
 		},
 
 		makepo: {
-			files: {
-				expand: true,
-				cwd: 'tmp/basic-plugin/',
-				src: 'basic-plugin.pot',
-				dest: 'tmp/basic-plugin'
+			plugin: {
+				files: [
+					{
+						expand: true,
+						cwd: 'tmp/makepo-plugin',
+						src: 'makepo-plugin.pot',
+						dest: 'tmp/makepo-plugin'
+					}
+				]
+			},
+			theme: {
+				options: {
+					type: 'wp-theme'
+				},
+				files: [
+					{
+						expand: true,
+						cwd: 'tmp/makepo-theme',
+						src: 'makepo-theme.pot',
+						dest: 'tmp/makepo-theme'
+					}
+				]
 			}
 		},
 
@@ -179,6 +196,6 @@ module.exports = function(grunt) {
 
 	// Whenever the "test" task is run, first clean the "tmp" dir,
 	// copy the "fixtures", then run this plugin's task(s), then test the result.
-	grunt.registerTask( 'test', ['clean', 'copy', 'makepot', 'addtextdomain', 'nodeunit']);
+	grunt.registerTask( 'test', ['clean', 'copy', 'makepot', 'addtextdomain', 'makepo::es_ES', 'nodeunit']);
 
 };
