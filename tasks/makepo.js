@@ -28,8 +28,14 @@ module.exports = function( grunt ) {
 		}
 
 		o = this.options({
-			processPo: null
+			processPo: null,
+			type: ''
 		});
+
+		// Determine the project type if it hasn't been specified.
+		if ( '' === o.type ) {
+			o.type = grunt.file.exists( 'style.css' ) ? 'wp-theme' : 'wp-plugin';
+		}
 
 		this.files.forEach(function( f ) {
 			var files, poFile, pot, potFile;
@@ -53,7 +59,7 @@ module.exports = function( grunt ) {
 				grunt.fatal( 'A POT file could not be found at ' + potFile );
 			}
 
-			poFile = f.dest.replace( '.pot', '-' + locale + '.po' );
+			poFile = ( 'wp-theme' === o.type ) ? path.join( f.orig.dest, locale + '.po' ) : f.dest.replace( '.pot', '-' + locale + '.po' );
 
 			if ( grunt.file.exists( poFile ) ) {
 				grunt.warn( 'A PO file for that locale already exists.' );
