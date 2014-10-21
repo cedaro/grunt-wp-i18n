@@ -13,12 +13,7 @@ module.exports = function( grunt ) {
 	var _ = require( 'underscore' ),
 		gettext = require( 'gettext-parser' ),
 		path = require( 'path' ),
-		util = require( './lib/util' ).init( grunt ),
-		wp = require( './lib/wordpress' ).init( grunt );
-
-	// Mix no-conflict string functions into the Underscore namespace.
-	_.str = require( 'underscore.string' );
-	_.mixin( _.str.exports() );
+		util = require( './lib/util' ).init( grunt );
 
 	/**
 	 * Create a PO file from an existing POT file.
