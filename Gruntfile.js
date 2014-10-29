@@ -151,7 +151,8 @@ module.exports = function(grunt) {
 						'x-poedit-country': 'Spain',
 						poedit: true,
 						language: 'es',
-						'x-poedit-keywordslist': ''
+						'x-poedit-keywordslist': '',
+						'Project-Id-Version': 'Custom Value' // Testing case.
 					},
 					type: 'wp-plugin'
 				}
