@@ -18,7 +18,7 @@ module.exports = function( grunt ) {
 	/**
 	 * Create a PO file from an existing POT file.
 	 */
-	grunt.registerMultiTask( 'makepo', function( locale ) {
+	grunt.registerMultiTask( 'makepo', 'Create a PO file for a locale from an existing POT file.', function( locale ) {
 		var o;
 
 		locale = locale || grunt.option( 'locale' );
