@@ -20,7 +20,7 @@ module.exports = function( grunt ) {
 	 *
 	 * @link http://develop.svn.wordpress.org/trunk/tools/i18n/
 	 */
-	grunt.registerMultiTask( 'addtextdomain', function() {
+	grunt.registerMultiTask( 'addtextdomain', 'Add the text domain to gettext functions.', function() {
 		var done = this.async(),
 			defaultI18nToolsPath = path.resolve( __dirname, '../vendor/wp-i18n-tools/' ),
 			files = [],
