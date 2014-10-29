@@ -29,7 +29,7 @@ module.exports = function( grunt ) {
 	 *
 	 * @link http://develop.svn.wordpress.org/trunk/tools/i18n/
 	 */
-	grunt.registerMultiTask( 'makepot', function() {
+	grunt.registerMultiTask( 'makepot', 'Generate a POT file for translating strings.', function() {
 		var done = this.async(),
 			defaultI18nToolsPath = path.resolve( __dirname, '../vendor/wp-i18n-tools/' ),
 			gruntBase = process.cwd(),
