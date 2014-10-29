@@ -84,7 +84,7 @@ exports.init = function( grunt ) {
 	 * @param {Object} pot POT file object created by gettext-parser.
 	 * @param {Object} headers Header key value pairs.
 	 *
-	 * @param {Object}
+	 * @return {Object}
 	 */
 	exports.mergeHeaders = function( pot, headers ) {
 		if ( _.isEmpty( headers ) ) {
@@ -102,6 +102,15 @@ exports.init = function( grunt ) {
 			'x-poedit-bookmarks': '',
 			'x-textdomain-support': 'yes'
 		};
+
+		// Make sure header keys are lowercase.
+		_.each( headers, function( value, key ) {
+			var keyLower = key.toLowerCase();
+			if ( key !== keyLower ) {
+				headers[ keyLower ] = headers[ key ];
+				delete headers[ key ];
+			}
+		});
 
 		// Add default Poedit headers.
 		if ( 'poedit' in headers && true === headers['poedit'] ) {
