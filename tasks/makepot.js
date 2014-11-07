@@ -86,8 +86,8 @@ module.exports = function( grunt ) {
 		// Reset the working directory.
 		grunt.file.setBase( gruntBase );
 
-		// Exclude the node_modules directory by default.
-		o.exclude.push( 'node_modules/.*' );
+		// Exclude the node_modules & bower_components directory by default.
+		o.exclude.push( 'node_modules/.*', 'bower_components/.*' );
 
 		// Build the list of CLI args.
 		cmdArgs = [
