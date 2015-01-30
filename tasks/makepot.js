@@ -16,7 +16,9 @@ module.exports = function( grunt ) {
 		pkg = require( '../package.json' ),
 		util = require( './lib/util' ).init( grunt ),
 		localConfig = util.getLocalConfig(),
-		wp = require( './lib/wordpress' ).init( grunt );
+		wp = require( './lib/wordpress' ).init( grunt),
+		msgMerge = require( './lib/msgmerge' ).init( grunt ),
+		async = require( 'async' );
 
 	// Mix no-conflict string functions into the Underscore namespace.
 	_.str = require( 'underscore.string' );
@@ -47,7 +49,8 @@ module.exports = function( grunt ) {
 			potHeaders: {},
 			processPot: null,
 			type: 'wp-plugin',
-			updateTimestamp: true
+			updateTimestamp: true,
+			updatePoFiles: false
 		});
 
 		// Set the current working directory.
@@ -118,7 +121,7 @@ module.exports = function( grunt ) {
 			args: cmdArgs,
 			opts: { stdio: 'inherit' }
 		}, function( error, result, code ) {
-			var matches, pattern, pot;
+			var matches, pattern, pot, poFiles;
 
 			if ( 0 === code && grunt.file.exists( o.potFile ) ) {
 				pot = grunt.file.read( o.potFile );
@@ -155,9 +158,21 @@ module.exports = function( grunt ) {
 				// Save the POT file.
 				grunt.file.write( o.potFile, pot );
 				grunt.log.ok( 'POT file saved to ' + o.potFile );
-			}
 
-			done( error, result );
+				// Maybe update .po files
+				if ( o.updatePoFiles ) {
+					poFiles = msgMerge.searchPoFiles( o.potFile, o.type );
+
+					async.eachSeries( poFiles, function( poFile, done ) {
+						msgMerge.msgMerge( o.potFile, poFile, done );
+					}, done );
+
+				} else {
+					done( error, result );
+				}
+			} else {
+				done( error, result );
+			}
 		});
 	});
 

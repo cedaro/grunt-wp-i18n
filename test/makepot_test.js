@@ -151,6 +151,50 @@ exports.makepot = {
 
 		test.done();
 	},
+
+	msg_merge_merging: function( test ) {
+		test.expect( 4 );
+
+		var en_GB = gettext.po.parse( grunt.file.read( 'tmp/msg-merge/msg-merge-en_GB.po' ) );
+		var nl_NL = gettext.po.parse( grunt.file.read( 'tmp/msg-merge/msg-merge-nl_NL.po' ) );
+
+		test.ok( en_GB.translations['']['Colors'], '"Colors" string should exist' );
+		test.ok( nl_NL.translations['']['Colors'], '"Colors" string should exist' );
+
+		test.equal( en_GB.translations['']['Colors']['comments']['flag'], 'fuzzy', 'a change translation should be fuzzy after msgmerge' );
+		test.equal( nl_NL.translations['']['Colors']['comments']['flag'], 'fuzzy', 'a change translation should be fuzzy after msgmerge' );
+
+		test.done();
+	},
+
+	msg_merge_no_merging: function( test ) {
+		test.expect( 5 );
+
+		var pot = gettext.po.parse( grunt.file.read( 'tmp/msg-merge-no-merge/msg-merge-no-merge.pot' ) );
+		var en_GB = gettext.po.parse( grunt.file.read( 'tmp/msg-merge-no-merge/msg-merge-no-merge-en_GB.po' ) );
+		var nl_NL = gettext.po.parse( grunt.file.read( 'tmp/msg-merge-no-merge/msg-merge-no-merge-nl_NL.po' ) );
+
+		test.ok( pot.translations['']['Color'], '"Color" string should exist' );
+
+		test.ok( ! en_GB.translations['']['Colors'], '"Colors" string should not exist' );
+		test.ok( ! nl_NL.translations['']['Colors'], '"Colors" string should not exist' );
+
+		test.ok( en_GB.translations['']['Color'], '"Color" string should exist' );
+		test.ok( nl_NL.translations['']['Color'], '"Color" string should exist' );
+
+		test.done();
+	},
+
+	msg_merge_theme: function( test ) {
+		test.expect( 2 );
+
+		var en_GB = gettext.po.parse( grunt.file.read( 'tmp/msg-merge-theme/en_GB.po' ) );
+
+		test.ok( ! en_GB.translations['']['Analog'], '"Analog string should not exist' );
+		test.ok( en_GB.translations['']['Digital'], '"Digital" string should exist' );
+
+		test.done();
+	}
 };
 
 exports.makepotTimestamp = {
