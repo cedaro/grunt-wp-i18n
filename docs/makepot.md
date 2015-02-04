@@ -29,7 +29,7 @@ grunt.initConfig({
                 processPot: null,                 // A callback function for manipulating the POT file.
                 type: 'wp-plugin',                // Type of project (wp-plugin or wp-theme).
                 updateTimestamp: true             // Whether the POT-Creation-Date should be updated without other changes.
-                updatePoFiles: false              // Whether to update the PO files that are present around the POT file.
+                updatePoFiles: false              // Whether to update PO files in the same directory as the POT file.
             }
         }
     }
@@ -139,7 +139,9 @@ Whether the `POT-Creation-Date` header should be updated if no other changes to 
 Type: `Boolean`  
 Default value: `false`
 
-Whether to update the PO files that are present around the POT file. `makepot` will search around the generated POT file for PO files to update. For a theme `makepot` will search for any PO file around the POT file. For a plugin `makepot` will search for the following glob filter around the POT file: `[plugin-name]-*.po`
+[GNU gettext](https://www.gnu.org/software/gettext/) must be in your system path to use this option.
+
+Whether to update the PO files that are present in the same directory as the POT file using the [msgmerge](https://www.gnu.org/software/gettext/manual/html_node/msgmerge-Invocation.html) program.
 
 ## Usage Examples
 
