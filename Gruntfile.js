@@ -156,6 +156,28 @@ module.exports = function(grunt) {
 					},
 					type: 'wp-plugin'
 				}
+			},
+
+			msg_merge_merging: {
+				options: {
+					cwd: 'tmp/msg-merge',
+					updatePoFiles: true
+				}
+			},
+
+			msg_merge_no_merging: {
+				options: {
+					cwd: 'tmp/msg-merge-no-merge',
+					updatePoFiles: false
+				}
+			},
+
+			msg_merge_theme: {
+				options: {
+					type: 'wp-theme',
+					cwd: 'tmp/msg-merge-theme',
+					updatePoFiles: true
+				}
 			}
 		},
 
