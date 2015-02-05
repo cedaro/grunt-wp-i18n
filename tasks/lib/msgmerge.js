@@ -28,7 +28,7 @@ exports.init = function( grunt ) {
 			if ( error ) {
 				grunt.log.error( 'msgmerge error:' + error );
 			} else {
-				grunt.log.ok( from + ' merged into ' + to );
+				grunt.log.ok( 'POT file merged into ' + path.relative( process.cwd(), to ) );
 			}
 
 			callback();

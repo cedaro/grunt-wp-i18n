@@ -157,7 +157,7 @@ module.exports = function( grunt ) {
 
 				// Save the POT file.
 				grunt.file.write( o.potFile, pot );
-				grunt.log.ok( 'POT file saved to ' + o.potFile );
+				grunt.log.ok( 'POT file saved to ' + path.relative( process.cwd(), o.potFile ) );
 
 				// Maybe update .po files
 				if ( o.updatePoFiles ) {
