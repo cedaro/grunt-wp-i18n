@@ -2,6 +2,7 @@
 __( 'String' );
 __( 'String', 'oldtextdomain' );
 __( 'String', 'vendortextdomain' );
+date( 'F j, Y', time() );
 _x( 'String', 'a string' );
 _x( 'String', 'a string', 'oldtextdomain' );
 _x( 'String', 'a string', 'vendortextdomain' );

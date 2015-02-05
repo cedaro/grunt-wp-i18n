@@ -74,7 +74,7 @@ class GruntAddTextdomain extends AddTextdomain {
 					if ( $in_func && $args_started ) {
 						$found_domain = true;
 					}
-				} elseif ( T_CONSTANT_ENCAPSED_STRING == $id && isset( $this->domain_positions[ $current_func ] ) ) {
+				} elseif ( T_CONSTANT_ENCAPSED_STRING == $id && ! empty( $current_func ) && isset( $this->domain_positions[ $current_func ] ) ) {
 					$is_domain_match = in_array( trim( $text, '\'"' ), $this->domains_to_update );
 					$is_domain_arg   = $this->update_all_domains && $arg_position === $this->domain_positions[ $current_func ] - 1;
 
@@ -87,7 +87,7 @@ class GruntAddTextdomain extends AddTextdomain {
 			} elseif ( '(' == $token ) {
 				$args_started = true;
 				++$parens_balance;
-			} elseif ( ',' == $token ) {
+			} elseif ( $in_func && ',' == $token ) {
 				++$arg_position;
 			} elseif ( ')' == $token ) {
 				--$parens_balance;
