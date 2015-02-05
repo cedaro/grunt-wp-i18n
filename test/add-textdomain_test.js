@@ -47,4 +47,18 @@ exports.addtextdomain = {
 
 		test.done();
 	},
+
+	update_all_domains: function( test ) {
+		test.expect( 5 );
+
+		var fileContents = grunt.file.read( 'tmp/text-domains/update-all-domains.php' );
+
+		test.equal( fileContents.indexOf( '__( \'String\' );' ), -1, "the text domain should have been added to the __() method" );
+		test.equal( fileContents.indexOf( '_x( \'String\', \'a string\' );' ), -1, "the text domain should have been added to the _x() method" );
+		test.equal( fileContents.indexOf( '_n( \'1 Star\', \'%s Stars\', 2 );' ), -1, "the text domain should have been added to the _n() method" );
+		test.equal( fileContents.indexOf( 'vendortextdomain' ), -1, "the 'vendortextdomain' should have been updated" );
+		test.equal( fileContents.indexOf( 'oldtextdomain' ), -1, "the 'oldtextdomain' should have been updated" );
+
+		test.done();
+	},
 };

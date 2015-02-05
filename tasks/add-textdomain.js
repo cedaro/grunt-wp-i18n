@@ -46,6 +46,10 @@ module.exports = function( grunt ) {
 			grunt.fatal( 'add-textdomain.php could not be found in ' + o.i18nToolsPath );
 		}
 
+		if ( true === o.updateDomains ) {
+			o.updateDomains = ['all'];
+		}
+
 		// Build the list of CLI args.
 		cmdArgs = [
 			o.addTextdomainScript,
@@ -58,11 +62,11 @@ module.exports = function( grunt ) {
 			cmdArgs[1] = '';
 		}
 
+		// Only add custom CLI args if using the bundled tools.
 		if ( defaultI18nToolsPath === o.i18nToolsPath ) {
 			// Use the custom CLI script that extends add-textdomain.php.
 			o.addTextdomainScript = path.join( o.i18nToolsPath, 'grunt-add-textdomain.php' );
 
-			// Only add custom CLI args if using the bundled tools.
 			cmdArgs[0] = o.addTextdomainScript;
 			cmdArgs.push( o.updateDomains.join( ',' ) );
 		}

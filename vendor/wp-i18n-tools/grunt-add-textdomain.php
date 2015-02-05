@@ -10,6 +10,35 @@ class GruntAddTextdomain extends AddTextdomain {
 	protected $domains_to_update = array();
 
 	/**
+	 * Whether to update all text domains.
+	 *
+	 * @type boolean
+	 */
+	protected $update_all_domains = false;
+
+	/**
+	 * List of translation functions and the position of the text domain argument.
+	 *
+	 * @type array
+	 */
+	protected $domain_positions = array(
+		'__'         => 2,
+		'_e'         => 2,
+		'_x'         => 3,
+		'_ex'        => 3,
+		'_n'         => 4,
+		'_nx'        => 5,
+		'_n_noop'    => 3,
+		'_nx_noop'   => 4,
+		'esc_attr__' => 2,
+		'esc_html__' => 2,
+		'esc_attr_e' => 2,
+		'esc_html_e' => 2,
+		'esc_attr_x' => 3,
+		'esc_html_x' => 3,
+	);
+
+	/**
 	 * Add textdomain to a set of PHP tokens.
 	 *
 	 * @param string $domain Text domain.
@@ -25,7 +54,9 @@ class GruntAddTextdomain extends AddTextdomain {
 		$domain = addslashes( $domain );
 
 		$in_func = false;
+		$current_func = null;
 		$args_started = false;
+		$arg_position = 0;
 		$parens_balance = 0;
 		$found_domain = false;
 
@@ -35,6 +66,7 @@ class GruntAddTextdomain extends AddTextdomain {
 				list( $id, $text ) = $token;
 				if ( T_STRING == $id && in_array( $text, $this->funcs ) ) {
 					$in_func        = true;
+					$current_func   = $text;
 					$parens_balance = 0;
 					$args_started   = false;
 					$found_domain   = false;
@@ -42,8 +74,11 @@ class GruntAddTextdomain extends AddTextdomain {
 					if ( $in_func && $args_started ) {
 						$found_domain = true;
 					}
-				} elseif ( T_CONSTANT_ENCAPSED_STRING == $id && in_array( trim( $text, '\'"' ), $this->domains_to_update ) ) {
-					if ( $in_func && $args_started ) {
+				} elseif ( T_CONSTANT_ENCAPSED_STRING == $id && isset( $this->domain_positions[ $current_func ] ) ) {
+					$is_domain_match = in_array( trim( $text, '\'"' ), $this->domains_to_update );
+					$is_domain_arg   = $this->update_all_domains && $arg_position === $this->domain_positions[ $current_func ] - 1;
+
+					if ( $in_func && $args_started && ( $is_domain_match || $is_domain_arg ) ) {
 						$text = preg_replace( '/([\'"]).+[\'"]$/', '$1' . $domain . '$1', $text );
 						$found_domain = true;
 					}
@@ -52,6 +87,8 @@ class GruntAddTextdomain extends AddTextdomain {
 			} elseif ( '(' == $token ) {
 				$args_started = true;
 				++$parens_balance;
+			} elseif ( ',' == $token ) {
+				++$arg_position;
 			} elseif ( ')' == $token ) {
 				--$parens_balance;
 				if ( $in_func && 0 == $parens_balance ) {
@@ -65,7 +102,9 @@ class GruntAddTextdomain extends AddTextdomain {
 						$token .= ')';
 					}
 					$in_func      = false;
+					$current_func = null;
 					$args_started = false;
+					$arg_position = 0;
 					$found_domain = false;
 				}
 			}
@@ -81,7 +120,10 @@ class GruntAddTextdomain extends AddTextdomain {
 	 * @param string|array $domains Comma-separated string or array of domains to update.
 	 */
 	public function set_domains_to_update( $domains = array() ) {
-		if ( is_string( $domains ) ) {
+		if ( 'all' === $domains ) {
+			$this->update_all_domains = true;
+			$domains = array();
+		} elseif ( is_string( $domains ) ) {
 			$domains = explode( ',', $domains );
 		}
 

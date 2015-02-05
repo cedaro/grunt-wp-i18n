@@ -59,6 +59,12 @@ module.exports = function(grunt) {
 					updateDomains: ['oldtextdomain', 'vendortextdomain']
 				},
 				src: ['tmp/text-domains/update-domains.php']
+			},
+			update_all_domains: {
+				options: {
+					updateDomains: true
+				},
+				src: ['tmp/text-domains/update-all-domains.php']
 			}
 		},
 
