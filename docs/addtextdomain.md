@@ -42,11 +42,11 @@ Example value: `'plugin-or-theme-slug'`
 Defaults to the "Text Domain" header if it exists, otherwise uses the project directory name.
 
 ### options.updateDomains
-Type: `Array`  
+Type: `Array|true`  
 Default value: `[]`  
 Example value: `[ 'original-domain', 'vendor-domain' ]`
 
-A list of text domains to replace with the new text domain.
+A list of text domains to replace with the new text domain. Setting the value to `true` will update all text domains with the new text domain.
 
 
 ## Usage Examples

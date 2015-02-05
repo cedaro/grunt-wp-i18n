@@ -1,5 +1,14 @@
 # Changelog for grunt-wp-i18n
 
+## 0.5.0
+
+* Added tasks descriptions. Props [@shivapoudel](https://github.com/shivapoudel)
+* Made POT header keys case-insenstive.
+* Added msgmerge support to the makepot task for updating PO files. Props [@atimmer](https://github.com/atimmer)
+* Pulled in upstream changes to WP i18n tools.
+* Allow `updateDomains: true` in the addtextdomain task to update all text domains in a project.
+* Simplified makepot task output.
+
 ## 0.4.9
 
 * Fixed a bug causing the `addtextdomain` task to finish early.
