@@ -4,7 +4,7 @@
 
 WordPress has a robust suite of tools to help internationalize plugins and themes. This plugin brings the power of those existing tools to Grunt in order to make it easy for you to automate the i18n process and make your projects more accessible to an international audience.
 
-If you're not familiar with i18n concepts, read the Internationalization entries in the [Plugin Developer Handbook](http://make.wordpress.org/docs/plugin-developer-handbook/plugin-components/internationalization/) or [Theme Developer Handbook](http://make.wordpress.org/docs/theme-developer-handbook/theme-functionality/internationalization/).
+If you're not familiar with i18n concepts, read the Internationalization entries in the [Plugin Developer Handbook](https://developer.wordpress.org/plugins/internationalization/) or [Theme Developer Handbook](https://developer.wordpress.org/themes/functionality/internationalization/).
 
 
 ## Getting Started
