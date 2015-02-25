@@ -1,8 +1,8 @@
 /*
  * grunt-wp-i18n
- * https://github.com/blazersix/grunt-wp-i18n
+ * https://github.com/cedaro/grunt-wp-i18n
  *
- * Copyright (c) 2014 Blazer Six, Inc.
+ * Copyright (c) 2014 Cedaro, LLC
  * Licensed under the MIT license.
  */
 
@@ -94,7 +94,7 @@ module.exports = function(grunt) {
 					cwd: 'tmp/plugin-headers',
 					potComments: 'A new comment header.',
 					potHeaders: {
-						'report-msgid-bugs-to': 'https://github.com/blazersix/grunt-wp-i18n/issues',
+						'report-msgid-bugs-to': 'https://github.com/cedaro/grunt-wp-i18n/issues',
 						'x-poedit-keywordslist': '',
 						'x-poedit-searchpath-0': '',
 						'x-poedit-searchpathexcluded-0': '',

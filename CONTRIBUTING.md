@@ -19,7 +19,7 @@ Update the version in `packages.json` to point to the `develop` branch:
 ```js
 "devDependencies": {
   "grunt": "~0.4.5",
-  "grunt-wp-i18n": "git://github.com/blazersix/grunt-wp-i18n.git#develop"
+  "grunt-wp-i18n": "git://github.com/cedaro/grunt-wp-i18n.git#develop"
 }
 ```
 

@@ -60,7 +60,7 @@ exports.makepot = {
 		pot = gettext.po.parse( pot );
 		test.equal( pot.headers['language-team'], teamHeader, 'the language team header should match the value set in the processPot callback' );
 
-		var bugReportHeader = 'https://github.com/blazersix/grunt-wp-i18n/issues';
+		var bugReportHeader = 'https://github.com/cedaro/grunt-wp-i18n/issues';
 		test.equal( pot.headers['report-msgid-bugs-to'], bugReportHeader, 'the report-msgid-bugs-to header should match the value set in the potHeaders option' );
 
 		var potHeaders = pot.translations['']['']['msgstr'][0];

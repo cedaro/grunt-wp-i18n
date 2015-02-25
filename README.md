@@ -1,4 +1,4 @@
-# grunt-wp-i18n [![Build Status](https://travis-ci.org/blazersix/grunt-wp-i18n.png?branch=develop)](https://travis-ci.org/blazersix/grunt-wp-i18n)
+# grunt-wp-i18n [![Build Status](https://travis-ci.org/cedaro/grunt-wp-i18n.png?branch=develop)](https://travis-ci.org/cedaro/grunt-wp-i18n)
 
 > Internationalize WordPress plugins and themes.
 

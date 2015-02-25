@@ -2,23 +2,23 @@
   "name": "grunt-wp-i18n",
   "description": "Internationalize WordPress themes and plugins.",
   "version": "0.5.0",
-  "homepage": "https://github.com/blazersix/grunt-wp-i18n",
+  "homepage": "https://github.com/cedaro/grunt-wp-i18n",
   "author": {
     "name": "Brady Vercher",
     "email": "brady@blazersix.com",
-    "url": "http://www.blazersix.com/"
+    "url": "http://www.cedaro.com/"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/blazersix/grunt-wp-i18n.git"
+    "url": "git://github.com/cedaro/grunt-wp-i18n.git"
   },
   "bugs": {
-    "url": "https://github.com/blazersix/grunt-wp-i18n/issues"
+    "url": "https://github.com/cedaro/grunt-wp-i18n/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/blazersix/grunt-wp-i18n/blob/master/LICENSE-MIT"
+      "url": "https://github.com/cedaro/grunt-wp-i18n/blob/master/LICENSE-MIT"
     }
   ],
   "engines": {

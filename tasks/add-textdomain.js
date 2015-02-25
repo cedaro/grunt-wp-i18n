@@ -1,8 +1,8 @@
 /*
  * grunt-wp-i18n
- * https://github.com/blazersix/grunt-wp-i18n
+ * https://github.com/cedaro/grunt-wp-i18n
  *
- * Copyright (c) 2014 Blazer Six, Inc.
+ * Copyright (c) 2014 Cedaro, LLC
  * Licensed under the MIT license.
  */
 
