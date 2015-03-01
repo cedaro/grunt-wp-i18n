@@ -152,5 +152,5 @@ Whether to update the PO files that are present in the same directory as the POT
 
 ## Usage Examples
 
-* [Use a custom working directory.](examples/custom-working-directory.md)
-* [Remove Plugin or Theme metadata from the POT file.](examples/remove-package-metadata.md)
+* [Using a custom working directory.](examples/custom-working-directory.md)
+* [Remove plugin or theme metadata from the POT file.](examples/remove-package-metadata.md)
