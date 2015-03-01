@@ -33,14 +33,3 @@ This plugin consists of two configurable tasks:
 
 * [makepot](docs/makepot.md) - Generate a POT file.
 * [addtextdomain](docs/addtextdomain.md) - Add a text domain to gettext functions.
-
-
-## Local Config
-
-Options defined in Gruntfile.js are shared between anyone working on a project, however, developers may wish to save their i18n tools in a custom location. To do so, add the `i18nToolsPath` in a `config.json` file in the project directory. This file may contain other local configuration options or sensitive data, so it should not be checked in to version control.
-
-```json
-{
-    "i18nToolsPath": "/path/to/i18n-tools/"
-}
-```

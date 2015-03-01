@@ -18,7 +18,6 @@ grunt.initConfig({
                 domainPath: '',                   // Where to save the POT file.
                 exclude: [],                      // List of files or directories to ignore.
                 include: [],                      // List of files or directories to include.
-                i18nToolsPath: '',                // Path to the i18n tools directory.
                 mainFile: '',                     // Main project file.
                 potComments: '',                  // The copyright at the beginning of the POT file.
                 potFilename: '',                  // Name of the POT file.
@@ -36,15 +35,28 @@ grunt.initConfig({
 });
 ```
 
-
 ## Options
+
+All options are optional, but at the very least a target needs to exist. At a minimum, set an option specifying the type of project.
+
+```js
+grunt.initConfig({
+    makepot: {
+        target: {
+            options: {
+                type: 'wp-plugin'
+            }
+        }
+    }
+});
+```
 
 ### options.cwd
 Type: `String`  
 Default value: `''`  
 Example value: `'release'`
 
-The directory that should be internationalized. Defaults to the project root, but can be set to a subdirectory, for instance, when being used in a build process. Should be relative to the project root.
+The directory that should be internationalized. Defaults to the project root, but can be set to a subdirectory, for instance, when used in a build process. Should be relative to the project root.
 
 ### options.domainPath
 Type: `String`  
@@ -61,16 +73,11 @@ Example value: `['subdir/.*']`
 List of files or directories to ignore when generating the POT file. Note that the globbing pattern is a basic PHP [regular expression](https://github.com/blazersix/grunt-wp-i18n/blob/develop/vendor/wp-i18n-tools/extract.php#L66).
 
 ### options.include
-Type: `String`
-Default value: `[]`
+Type: `String`  
+Default value: `[]`  
 Example value: `['subdir/.*']`
 
 List of files or directories to include when generating the POT file. Note that the globbing pattern is a basic PHP [regular expression](https://github.com/blazersix/grunt-wp-i18n/blob/develop/vendor/wp-i18n-tools/extract.php#L66)
-
-### options.i18nToolsPath
-Type: `String`
-
-Path to a local copy of the WordPress i18n tools. May be relative to the project or an absolute path. Defaults to a bundled version of the i18n tools.
 
 ### options.mainFile
 Type: `String`  
@@ -123,7 +130,7 @@ Default value: `null`
 A callback function for advanced manipulation of the POT file after it's generated.
 
 ### options.type
-Type: `String`
+Type: `String`  
 Default value: `'wp-plugin'`  
 Example value: `'wp-plugin'` or `'wp-theme'`
 
@@ -145,91 +152,5 @@ Whether to update the PO files that are present in the same directory as the POT
 
 ## Usage Examples
 
-### Default Options
-
-All options are optional, but at the very least a target needs to exist, so at a minimum, set an option specifying the type of project.
-
-```js
-grunt.initConfig({
-    makepot: {
-        target: {
-            options: {
-                type: 'wp-plugin'
-            }
-        }
-    }
-});
-```
-
-### Custom Options
-
-If using with a custom build process, the following config would process strings in the `/release` subdirectory and save the POT file at `/release/languages/plugin-slug.pot`.
-
-```js
-grunt.initConfig({
-    makepot: {
-        target: {
-            options: {
-                cwd: 'release'
-                domainPath: '/languages',
-                mainFile: 'plugin-slug.php',
-                potFilename: 'plugin-slug.pot',
-                processPot: function( pot, options ) {
-                    pot.headers['report-msgid-bugs-to'] = 'http://example.com/issues';
-                    pot.headers['language-team'] = 'Team Name <team@example.com>';
-                    return pot;
-                },
-                type: 'wp-plugin'
-            }
-        }
-    }
-});
-```
-### Meta data of Plugins/Themes
-
-You may use the `processPot` callback to control which meta data is automatically added to the POT file. This may be useful if you don't want Author or Plugin/Theme names and urls to be translatable.
-
-```js
-grunt.initConfig({
-    makepot: {
-        target: {
-            options: {
-                processPot: function( pot ) {
-                    var translation,
-                        excluded_meta = [
-                            'Plugin Name of the plugin/theme',
-                            'Plugin URI of the plugin/theme',
-                            'Author of the plugin/theme',
-                            'Author URI of the plugin/theme'
-                        ];
-
-                    for ( translation in pot.translations[''] ) {
-                        if ( 'undefined' !== typeof pot.translations[''][ translation ].comments.extracted ) {
-                            if ( excluded_meta.indexOf( pot.translations[''][ translation ].comments.extracted ) >= 0 ) {
-                                console.log( 'Excluded meta: ' + pot.translations[''][ translation ].comments.extracted );
-                                delete pot.translations[''][ translation ];
-                            }
-                        }
-                    }
-
-                    return pot;
-                },
-                type: 'wp-plugin'
-            }
-        }
-    }
-});
-```
-
-The following strings are recognized:
-
-```
-Plugin Name of the plugin/theme
-Theme Name of the plugin/theme
-Plugin URI of the plugin/theme
-Theme URI of the plugin/theme
-Description of the plugin/theme
-Author of the plugin/theme
-Author URI of the plugin/theme
-Tags of the plugin/theme
-```
+* [Use a custom working directory.](examples/custom-working-directory.md)
+* [Remove Plugin or Theme metadata from the POT file.](examples/remove-package-metadata.md)

@@ -51,18 +51,23 @@ A list of text domains to replace with the new text domain. Setting the value to
 
 ## Usage Examples
 
-Options may be specified at the task or target level, but are optional. Each target must define the files that should be operated on. It's not necessary to declare a destination since the files will be updated in place.
+Options may be specified at the task or target level, but are optional. Each target must define the files that should be processed. It's not necessary to declare a destination since the files will be updated in place.
 
 ```js
 grunt.initConfig({
     addtextdomain: {
         target: {
             files: {
-                src: [ '*.php', '**/*.php', '!node_modules/**', '!tests/**' ]
+                src: [
+                    '*.php',
+                    '**/*.php',
+                    '!node_modules/**',
+                    '!tests/**'
+                ]
             }
         }
     }
 });
 ```
 
-This task supports the file mapping format Grunt supports. Please read [Globbing patterns](http://gruntjs.com/configuring-tasks#globbing-patterns) and [Building the files object dynamically](http://gruntjs.com/configuring-tasks#building-the-files-object-dynamically) for additional details.
+This task supports the same file mapping format Grunt supports. Please read [Globbing patterns](http://gruntjs.com/configuring-tasks#globbing-patterns) and [Building the files object dynamically](http://gruntjs.com/configuring-tasks#building-the-files-object-dynamically) for additional details.
