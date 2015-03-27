@@ -1,7 +1,7 @@
 {
   "name": "grunt-wp-i18n",
   "description": "Internationalize WordPress themes and plugins.",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "homepage": "https://github.com/cedaro/grunt-wp-i18n",
   "author": {
     "name": "Brady Vercher",

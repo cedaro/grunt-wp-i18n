@@ -1,5 +1,9 @@
 # Changelog for grunt-wp-i18n
 
+## 0.5.1
+
+* Merged upstream changes to provide better support for multiline translators comments. Props [@ntwp](https://github.com/ntwb)
+
 ## 0.5.0
 
 * Added tasks descriptions. Props [@shivapoudel](https://github.com/shivapoudel)
