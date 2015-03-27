@@ -152,6 +152,18 @@ exports.makepot = {
 		test.done();
 	},
 
+	translator_comments: function( test ) {
+		test.expect( 2 );
+		var pluginName = 'Example Plugin';
+		var potFile = 'tmp/translator-comments/translator-comments.pot';
+		var pot = gettext.po.parse( grunt.file.read( potFile ) );
+
+		test.equal( pot.translations['']['A'].comments.extracted, 'translators: A single line translators comment.', 'the single line translators comment should appear in the pot file' );
+		test.equal( pot.translations['']['B'].comments.extracted, 'translators: A multiline translators comment.', 'the multiline translators comment should appear in the pot file' );
+
+		test.done();
+	},
+
 	msg_merge_merging: function( test ) {
 		test.expect( 4 );
 

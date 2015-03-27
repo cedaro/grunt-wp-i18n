@@ -163,6 +163,12 @@ module.exports = function(grunt) {
 					type: 'wp-plugin'
 				}
 			},
+			translator_comments: {
+				options: {
+					cwd: 'tmp/translator-comments',
+					type: 'wp-plugin'
+				}
+			},
 
 			msg_merge_merging: {
 				options: {
