@@ -34,7 +34,7 @@ class StringExtractor {
 				$extracted = $this->extract_from_file( $file_name, $prefix );
 				$translations->merge_originals_with( $extracted );
 			}
-			if ( is_dir( $file_name ) ) {
+			if ( is_dir( $file_name ) && ! $this->is_directory_excluded( $prefix . $file_name, $excludes ) ) {
 				$extracted = $this->extract_from_directory( $file_name, $excludes, $includes, $prefix . $file_name . '/' );
 				$translations->merge_originals_with( $extracted );
 			}
@@ -69,6 +69,20 @@ class StringExtractor {
 			}
 		}
 		return true;
+	}
+
+	public function is_directory_excluded( $directory, $excludes ) {
+		if ( $excludes ) {
+			foreach( $excludes as $exclude ) {
+				if (
+					preg_match( '|^' . $exclude . '$|', $directory ) ||
+					preg_match( '|^' . $exclude . '$|', $directory . '/' )
+				) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	public function entry_from_call( $call, $file_name ) {
