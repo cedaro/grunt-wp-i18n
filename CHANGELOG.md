@@ -1,5 +1,9 @@
 # Changelog for grunt-wp-i18n
 
+## 0.5.2
+
+* Stopped the PHP script from scanning files in excluded directories when running the makepot task. See [#52](https://github.com/cedaro/grunt-wp-i18n/issues/52)
+
 ## 0.5.1
 
 * Merged upstream changes to provide better support for multiline translators comments. Props [@ntwp](https://github.com/ntwb)
