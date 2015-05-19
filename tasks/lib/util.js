@@ -141,8 +141,8 @@ exports.init = function( grunt ) {
 	 */
 	exports.fixHeaders = function( pot ) {
 		pot = pot.replace( /x-poedit-keywordslist:/i, 'X-Poedit-KeywordsList:' );
-		pot = pot.replace( /x-poedit-searchpath-0:/i, 'X-Poedit-SearchPath-0:' );
-		pot = pot.replace( /x-poedit-searchpathexcluded-0:/i, 'X-Poedit-SearchPathExcluded-0:' );
+		pot = pot.replace( /x-poedit-searchpath-/ig, 'X-Poedit-SearchPath-' );
+		pot = pot.replace( /x-poedit-searchpathexcluded-/ig, 'X-Poedit-SearchPathExcluded-' );
 		pot = pot.replace( /x-poedit-sourcecharset:/i, 'X-Poedit-SourceCharset:' );
 		return pot;
 	};
