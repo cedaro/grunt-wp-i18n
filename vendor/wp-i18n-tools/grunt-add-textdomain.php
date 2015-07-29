@@ -141,23 +141,15 @@ $included_files = get_included_files();
 if ( __FILE__ == $included_files[0] ) {
 	$adddomain = new GruntAddTextdomain;
 
-	if ( ! isset( $argv[1] ) || ! isset( $argv[2] ) ) {
-		$adddomain->usage();
-	}
-
 	$inplace = false;
 	if ( '-i' == $argv[1] ) {
 		$inplace = true;
-		if ( ! isset( $argv[3] ) ) {
-			$adddomain->usage();
-		}
-		array_shift( $argv );
 	}
 
 	// Set text domains to update.
-	if ( isset( $argv[3] ) ) {
-		$adddomain->set_domains_to_update( $argv[3] );
+	if ( isset( $argv[4] ) ) {
+		$adddomain->set_domains_to_update( $argv[4] );
 	}
 
-	$adddomain->process_file( $argv[1], $argv[2], $inplace );
+	$adddomain->process_file( $argv[2], $argv[3], $inplace );
 }
