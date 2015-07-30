@@ -1,5 +1,11 @@
 # Changelog for grunt-wp-i18n
 
+## 0.5.3
+
+* Fixed the `--dry-run` option when running the `addtextdomain` task. See [#54](https://github.com/cedaro/grunt-wp-i18n/issues/54)
+* Updated `msgid-bugs-address` URLs to HTTPS. Props [@ntwp](https://github.com/ntwb)
+* Fixed regex to update multiple `X-Poedit-SearchPath` and `X-Poedit-SearchPathExcluded` headers. Props [walbo](https://github.com/walbo)
+
 ## 0.5.2
 
 * Stopped the PHP script from scanning files in excluded directories when running the makepot task. See [#52](https://github.com/cedaro/grunt-wp-i18n/issues/52)
