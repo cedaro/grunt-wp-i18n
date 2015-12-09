@@ -12,7 +12,6 @@ module.exports = function( grunt ) {
 
 	var async = require( 'async' ),
 		path = require( 'path' ),
-		localConfig = require( './lib/util' ).init( grunt ).getLocalConfig(),
 		wp = require( './lib/wordpress' ).init( grunt );
 
 	/**
@@ -22,12 +21,10 @@ module.exports = function( grunt ) {
 	 */
 	grunt.registerMultiTask( 'addtextdomain', 'Add the text domain to gettext functions.', function() {
 		var done = this.async(),
-			defaultI18nToolsPath = path.resolve( __dirname, '../vendor/wp-i18n-tools/' ),
 			files = [],
 			cmdArgs, o;
 
 		o = this.options({
-			i18nToolsPath: defaultI18nToolsPath,
 			textdomain: '',
 			updateDomains: []
 		});
@@ -38,37 +35,21 @@ module.exports = function( grunt ) {
 			o.textdomain = wp.getHeader( 'Text Domain' ) || wp.slugify();
 		}
 
-		o.i18nToolsPath = localConfig.i18nToolsPath || o.i18nToolsPath;
-
-		// Make sure the add-textdomain.php script exists.
-		o.addTextdomainScript = path.join( o.i18nToolsPath, 'add-textdomain.php' );
-		if ( ! grunt.file.exists( o.addTextdomainScript ) ) {
-			grunt.fatal( 'add-textdomain.php could not be found in ' + o.i18nToolsPath );
-		}
-
 		if ( true === o.updateDomains ) {
 			o.updateDomains = ['all'];
 		}
 
 		// Build the list of CLI args.
 		cmdArgs = [
-			o.addTextdomainScript,
+			path.resolve( __dirname, '../vendor/wp-i18n-tools/grunt-add-textdomain.php' ),
 			'-i',
 			o.textdomain,
-			''
+			'',
+			o.updateDomains.join( ',' )
 		];
 
 		if ( grunt.option( 'dry-run' ) ) {
 			cmdArgs[1] = '';
-		}
-
-		// Only add custom CLI args if using the bundled tools.
-		if ( defaultI18nToolsPath === o.i18nToolsPath ) {
-			// Use the custom CLI script that extends add-textdomain.php.
-			o.addTextdomainScript = path.join( o.i18nToolsPath, 'grunt-add-textdomain.php' );
-
-			cmdArgs[0] = o.addTextdomainScript;
-			cmdArgs.push( o.updateDomains.join( ',' ) );
 		}
 
 		this.files.forEach(function( f ) {

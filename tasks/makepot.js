@@ -15,7 +15,6 @@ module.exports = function( grunt ) {
 		path = require( 'path' ),
 		pkg = require( '../package.json' ),
 		util = require( './lib/util' ).init( grunt ),
-		localConfig = util.getLocalConfig(),
 		wp = require( './lib/wordpress' ).init( grunt),
 		msgMerge = require( './lib/msgmerge' ).init( grunt ),
 		async = require( 'async' );
@@ -33,7 +32,6 @@ module.exports = function( grunt ) {
 	 */
 	grunt.registerMultiTask( 'makepot', 'Generate a POT file for translating strings.', function() {
 		var done = this.async(),
-			defaultI18nToolsPath = path.resolve( __dirname, '../vendor/wp-i18n-tools/' ),
 			gruntBase = process.cwd(),
 			cmdArgs, o, originalPot;
 
@@ -42,7 +40,6 @@ module.exports = function( grunt ) {
 			domainPath: '',
 			exclude: [],
 			include: [],
-			i18nToolsPath: defaultI18nToolsPath,
 			mainFile: '',
 			potComments: '',
 			potFilename: '',
@@ -74,14 +71,7 @@ module.exports = function( grunt ) {
 		}
 
 		o.domainPath = _.ltrim( o.domainPath, [ '/', '\\' ] );
-		o.i18nToolsPath = localConfig.i18nToolsPath || o.i18nToolsPath;
 		o.potFile = path.join( o.cwd, o.domainPath, o.potFilename );
-
-		// Make sure the makepot.php script exists.
-		o.makepotScript = path.join( o.i18nToolsPath, 'makepot.php' );
-		if ( ! grunt.file.exists( o.makepotScript ) ) {
-			grunt.fatal( 'makepot.php could not be found in ' + o.i18nToolsPath );
-		}
 
 		// Create the domain path directory if it doesn't exist.
 		grunt.file.mkdir( path.resolve( o.cwd, o.domainPath ) );
@@ -94,22 +84,14 @@ module.exports = function( grunt ) {
 
 		// Build the list of CLI args.
 		cmdArgs = [
-			o.makepotScript,
+			path.resolve( __dirname, '../vendor/wp-i18n-tools/grunt-makepot.php' ),
 			o.type,
 			o.cwd,
-			o.potFile
+			o.potFile,
+			o.mainFile.split( '.' ).shift(),
+			o.exclude.join( ',' ),
+			o.include.join( ',' )
 		];
-
-		if ( defaultI18nToolsPath === o.i18nToolsPath ) {
-			// Use the custom CLI script that extends makepot.php.
-			o.makepotScript = path.join( o.i18nToolsPath, 'grunt-makepot.php' );
-
-			// Only add custom CLI args if using the bundled tools.
-			cmdArgs[0] = o.makepotScript;
-			cmdArgs.push( o.mainFile.split( '.' ).shift() );
-			cmdArgs.push( o.exclude.join( ',' ) );
-			cmdArgs.push( o.include.join( ',' ) );
-		}
 
 		// Parse the existing POT file to compare for changes.
 		if ( ! o.updateTimestamp && grunt.file.exists( o.potFile ) ) {

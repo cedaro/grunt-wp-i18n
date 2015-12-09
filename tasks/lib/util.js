@@ -61,24 +61,6 @@ exports.init = function( grunt ) {
 	};
 
 	/**
-	 * Load local config options from config.json in the project root.
-	 *
-	 * The config.json may contain sensitive data and should not be included in
-	 * version control.
-	 *
-	 * @return {Object}
-	 */
-	exports.getLocalConfig = function() {
-		var localConfig = {};
-
-		if ( grunt.file.exists( 'config.json' ) ) {
-			localConfig = grunt.file.readJSON( 'config.json' );
-		}
-
-		return localConfig;
-	};
-
-	/**
 	 * Merge custom POT headers.
 	 *
 	 * @param {Object} pot POT file object created by gettext-parser.

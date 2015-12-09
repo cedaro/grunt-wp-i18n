@@ -15,7 +15,6 @@ In your project's Gruntfile, add a section named `addtextdomain` to the data obj
 grunt.initConfig({
     addtextdomain: {
         options: {
-            i18nToolsPath: '', // Path to the i18n tools directory.
             textdomain: '',    // Project text domain.
             updateDomains: []  // List of text domains to replace.
         },
@@ -28,11 +27,6 @@ grunt.initConfig({
 
 
 ## Options
-
-### options.i18nToolsPath
-Type: `String`
-
-Path to a local copy of the WordPress i18n tools. May be relative to the project or an absolute path. Defaults to a bundled version of the i18n tools.
 
 ### options.textdomain
 Type: `String`  
