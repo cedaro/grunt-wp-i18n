@@ -8,20 +8,11 @@
 
 'use strict';
 
+var path = require( 'path' ),
+	pkg = require( '../package.json' ),
+	wpi18n = require( 'node-wp-i18n' );
+
 module.exports = function( grunt ) {
-
-	var _ = require( 'underscore' ),
-		gettext = require( 'gettext-parser' ),
-		path = require( 'path' ),
-		pkg = require( '../package.json' ),
-		util = require( './lib/util' ).init( grunt ),
-		wp = require( './lib/wordpress' ).init( grunt),
-		msgMerge = require( './lib/msgmerge' ).init( grunt ),
-		async = require( 'async' );
-
-	// Mix no-conflict string functions into the Underscore namespace.
-	_.str = require( 'underscore.string' );
-	_.mixin( _.str.exports() );
 
 	/**
 	 * Generate a POT file for translating strings.
@@ -31,11 +22,10 @@ module.exports = function( grunt ) {
 	 * @link http://develop.svn.wordpress.org/trunk/tools/i18n/
 	 */
 	grunt.registerMultiTask( 'makepot', 'Generate a POT file for translating strings.', function() {
-		var done = this.async(),
-			gruntBase = process.cwd(),
-			cmdArgs, o, originalPot;
+		var options,
+			done = this.async();
 
-		o = this.options({
+		options = this.options({
 			cwd: process.cwd(),
 			domainPath: '',
 			exclude: [],
@@ -45,117 +35,22 @@ module.exports = function( grunt ) {
 			potFilename: '',
 			potHeaders: {},
 			processPot: null,
-			type: 'wp-plugin',
+			type: '',
 			updateTimestamp: true,
 			updatePoFiles: false
 		});
 
-		// Set the current working directory.
-		o.cwd = path.resolve( process.cwd(), o.cwd );
-		grunt.file.setBase( o.cwd );
+		options.cwd = path.resolve( process.cwd(), options.cwd );
+		options.potHeaders['x-generator'] = 'grunt-wp-i18n' + pkg.version;
+		options.potFile = options.potFilename;
 
-		// Attempt to discover the main project file.
-		if ( '' === o.mainFile ) {
-			o.mainFile = wp.getMainFile( o.type );
-		}
-
-		// Use Domain Path header if the domain path hasn't been set.
-		if ( '' === o.domainPath ) {
-			o.domainPath = wp.getHeader( 'Domain Path', o.mainFile );
-		}
-
-		// Use the Text Domain header or project folder name
-		// for the pot file if it hasn't been set.
-		if ( '' === o.potFilename ) {
-			o.potFilename = wp.getHeader( 'Text Domain', o.mainFile ) + '.pot' || wp.slugify() + '.pot';
-		}
-
-		o.domainPath = _.ltrim( o.domainPath, [ '/', '\\' ] );
-		o.potFile = path.join( o.cwd, o.domainPath, o.potFilename );
-
-		// Create the domain path directory if it doesn't exist.
-		grunt.file.mkdir( path.resolve( o.cwd, o.domainPath ) );
-
-		// Reset the working directory.
-		grunt.file.setBase( gruntBase );
-
-		// Exclude the node_modules directory by default.
-		o.exclude.push( 'node_modules/.*' );
-
-		// Build the list of CLI args.
-		cmdArgs = [
-			path.resolve( __dirname, '../vendor/wp-i18n-tools/grunt-makepot.php' ),
-			o.type,
-			o.cwd,
-			o.potFile,
-			o.mainFile.split( '.' ).shift(),
-			o.exclude.join( ',' ),
-			o.include.join( ',' )
-		];
-
-		// Parse the existing POT file to compare for changes.
-		if ( ! o.updateTimestamp && grunt.file.exists( o.potFile ) ) {
-			originalPot = gettext.po.parse( grunt.file.read( o.potFile ) );
-		}
-
-		grunt.util.spawn({
-			cmd: 'php',
-			args: cmdArgs,
-			opts: { stdio: 'inherit' }
-		}, function( error, result, code ) {
-			var matches, pattern, pot, poFiles;
-
-			if ( 0 === code && grunt.file.exists( o.potFile ) ) {
-				pot = grunt.file.read( o.potFile );
-
-				// Update the comments header.
-				pattern = /# <!=([\s\S]+?)=!>/;
-				if ( '' === o.potComments && ( matches = pot.match( pattern ) ) ) {
-					o.potComments = matches[1];
-				}
-				o.potComments = '# ' + o.potComments.replace( /\n(# )?/g, '\n# ' ).replace( '{year}', new Date().getFullYear() );
-				pot = pot.replace( pattern, o.potComments );
-
-				// Remove duplicate entries from the POT file.
-				pot = gettext.po.parse( pot );
-
-				// Merge custom headers.
-				pot.headers['x-generator'] = 'grunt-wp-i18n ' + pkg.version;
-				pot = util.mergeHeaders( pot, o.potHeaders );
-
-				// Allow the POT file to be modified with a callback.
-				if ( _.isFunction( o.processPot ) ) {
-					pot = o.processPot.call( undefined, pot, o );
-				}
-
-				// Determine if the creation date is the only thing that changed.
-				if ( ! o.updateTimestamp && ! _.isUndefined( originalPot ) ) {
-					pot = util.comparePotFiles( originalPot, pot ) ? originalPot : pot;
-				}
-
-				// Fix headers.
-				pot = gettext.po.compile( pot ).toString();
-				pot = util.fixHeaders( pot );
-
-				// Save the POT file.
-				grunt.file.write( o.potFile, pot );
-				grunt.log.ok( 'POT file saved to ' + path.relative( process.cwd(), o.potFile ) );
-
-				// Maybe update .po files
-				if ( o.updatePoFiles ) {
-					poFiles = msgMerge.searchPoFiles( o.potFile, o.type );
-
-					async.eachSeries( poFiles, function( poFile, done ) {
-						msgMerge.msgMerge( o.potFile, poFile, done );
-					}, done );
-
-				} else {
-					done( error, result );
-				}
-			} else {
-				done( error, result );
-			}
-		});
+		wpi18n.makepot( options )
+		.then(function( wpPackage ) {
+			grunt.log.ok( 'POT file saved to ' + path.relative( wpPackage.getPath(), wpPackage.getPotFilename() ) );
+		})
+		.catch(function( error ) {
+			console.log( error );
+		})
+		.finally( done );
 	});
-
 };

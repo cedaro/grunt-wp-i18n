@@ -3,6 +3,7 @@
   "description": "Internationalize WordPress themes and plugins.",
   "version": "0.5.3",
   "homepage": "https://github.com/cedaro/grunt-wp-i18n",
+  "license": "MIT",
   "author": {
     "name": "Brady Vercher",
     "email": "brady@blazersix.com",
@@ -15,12 +16,6 @@
   "bugs": {
     "url": "https://github.com/cedaro/grunt-wp-i18n/issues"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/cedaro/grunt-wp-i18n/blob/master/LICENSE-MIT"
-    }
-  ],
   "engines": {
     "node": ">= 0.8.0"
   },
@@ -28,18 +23,15 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "async": "~0.9.0",
-    "gettext-parser": "~1.1.0",
-    "grunt": "~0.4.5",
-    "underscore": "~1.8.2",
-    "underscore.string": "~3.0.3"
+    "grunt": "~0.4.5"
   },
   "devDependencies": {
-    "grunt": "~0.4.5",
+    "gettext-parser": "^1.1.2",
     "grunt-contrib-clean": "~0.6.0",
     "grunt-contrib-copy": "~0.8.0",
     "grunt-contrib-jshint": "~0.11.1",
-    "grunt-contrib-nodeunit": "~0.4.1"
+    "grunt-contrib-nodeunit": "~0.4.1",
+    "node-wp-i18n": "git://github.com/cedaro/node-wp-i18n.git#develop"
   },
   "peerDependencies": {
     "grunt": "~0.4.0"
