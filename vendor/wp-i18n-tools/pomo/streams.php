@@ -202,8 +202,6 @@ if ( !class_exists( 'POMO_CachedIntFileReader' ) ):
  * Reads the contents of the file in the beginning.
  */
 class POMO_CachedIntFileReader extends POMO_CachedFileReader {
-	public function __construct( $filename ) {
-		parent::__construct( $filename );
-	}
+
 }
 endif;
