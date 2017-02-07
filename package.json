@@ -1,18 +1,15 @@
 {
   "name": "grunt-wp-i18n",
   "description": "Internationalize WordPress themes and plugins.",
-  "version": "0.5.4",
+  "version": "1.0.0",
   "homepage": "https://github.com/cedaro/grunt-wp-i18n",
   "license": "MIT",
   "author": {
     "name": "Brady Vercher",
     "email": "brady@blazersix.com",
-    "url": "http://www.cedaro.com/"
+    "url": "https://www.cedaro.com/"
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/cedaro/grunt-wp-i18n.git"
-  },
+  "repository": "cedaro/grunt-wp-i18n",
   "bugs": {
     "url": "https://github.com/cedaro/grunt-wp-i18n/issues"
   },

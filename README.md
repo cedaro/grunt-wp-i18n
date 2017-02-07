@@ -23,7 +23,7 @@ grunt.loadNpmTasks( 'grunt-wp-i18n' );
 
 ### Requirements
 
-* This plugin requires Grunt `~0.4.0`.
+* This plugin requires Grunt `^1.0.0`.
 * [PHP CLI](http://www.php.net/manual/en/features.commandline.introduction.php) must be in your system path.
 
 

@@ -1,5 +1,10 @@
 # Changelog for grunt-wp-i18n
 
+## 1.0.0
+
+* Abstracted teh core functionality into [node-wp-i18n](https://github.com/cedaro/node-wp-i18n) and simplified the Grunt tasks.
+* Dropped support for using a custom path for the WP i18n PHP tools.
+
 ## 0.5.4
 
 * Updated PHP4-style constructors in the PHP library. Props [@andyreg](https://github.com/andreg)

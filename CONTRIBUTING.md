@@ -14,11 +14,11 @@ Since this project is WordPress-centric, we try to follow the guidelines for Wor
 
 ## Testing the Develop Branch
 
-Update the version in `packages.json` to point to the `develop` branch:
+Update the version in `package.json` to point to the `develop` branch:
 
 ```js
 "devDependencies": {
-  "grunt": "~0.4.5",
+  "grunt": "^1.0.0",
   "grunt-wp-i18n": "git://github.com/cedaro/grunt-wp-i18n.git#develop"
 }
 ```
