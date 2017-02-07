@@ -1,10 +1,15 @@
 # Changelog for grunt-wp-i18n
 
+## 0.5.4
+
+* Updated PHP4-style constructors in the PHP library. Props [@andyreg](https://github.com/andreg)
+* Updated peer dependencies to support Grunt 1.0. See [#65](https://github.com/cedaro/grunt-wp-i18n/pull/65)
+
 ## 0.5.3
 
 * Fixed the `--dry-run` option when running the `addtextdomain` task. See [#54](https://github.com/cedaro/grunt-wp-i18n/issues/54)
 * Updated `msgid-bugs-address` URLs to HTTPS. Props [@ntwp](https://github.com/ntwb)
-* Fixed regex to update multiple `X-Poedit-SearchPath` and `X-Poedit-SearchPathExcluded` headers. Props [walbo](https://github.com/walbo)
+* Fixed regex to update multiple `X-Poedit-SearchPath` and `X-Poedit-SearchPathExcluded` headers. Props [@walbo](https://github.com/walbo)
 
 ## 0.5.2
 
