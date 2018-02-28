@@ -1,8 +1,16 @@
 # Changelog for grunt-wp-i18n
 
+## 1.0.2
+
+* Updated the node-wp-i18n dependency to version 1.0.5 to prevent deprecated notices in PHP 7.2+. See [#75](https://github.com/cedaro/grunt-wp-i18n/issues/75)
+
+## 1.0.1
+
+* Updated npm dependencies.
+
 ## 1.0.0
 
-* Abstracted teh core functionality into [node-wp-i18n](https://github.com/cedaro/node-wp-i18n) and simplified the Grunt tasks.
+* Abstracted the core functionality into [node-wp-i18n](https://github.com/cedaro/node-wp-i18n) and simplified the Grunt tasks.
 * Dropped support for using a custom path for the WP i18n PHP tools.
 
 ## 0.5.4
