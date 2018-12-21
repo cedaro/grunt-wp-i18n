@@ -1,4 +1,8 @@
-# Changelog for grunt-wp-i18n
+# Changelog
+
+## 1.0.3
+
+* Updated the node-wp-i18n dependency to 1.2.2 to fix an issue with `updateTimestamp: false`. See [#76](https://github.com/cedaro/grunt-wp-i18n/issues/76)
 
 ## 1.0.2
 

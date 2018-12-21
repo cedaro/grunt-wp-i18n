@@ -1,7 +1,7 @@
 {
   "name": "grunt-wp-i18n",
   "description": "Internationalize WordPress themes and plugins.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "homepage": "https://github.com/cedaro/grunt-wp-i18n",
   "license": "MIT",
   "author": {
