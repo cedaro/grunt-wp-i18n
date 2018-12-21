@@ -41,7 +41,7 @@ module.exports = function( grunt ) {
 		});
 
 		options.cwd = path.resolve( process.cwd(), options.cwd );
-		options.potHeaders['x-generator'] = 'grunt-wp-i18n' + pkg.version;
+		options.potHeaders['x-generator'] = 'grunt-wp-i18n ' + pkg.version;
 		options.potFile = options.potFilename;
 
 		wpi18n.makepot( options )
